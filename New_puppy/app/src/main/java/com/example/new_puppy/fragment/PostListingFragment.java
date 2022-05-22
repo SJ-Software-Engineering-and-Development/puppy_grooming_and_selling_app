@@ -126,10 +126,10 @@ public class PostListingFragment extends Fragment {
 
         List<SlideModel> slideModels= new ArrayList<>();
         //TODO: Can add more than one images as bellow
-        slideModels.add(new SlideModel("https://media.istockphoto.com/photos/golden-retriever-dog-in-a-grooming-salon-is-taking-a-shower-picture-id1277453154?k=20&m=1277453154&s=612x612&w=0&h=hcYPzoCWabpFnJ0CoyViXCRUmtwRww2sp1uXlfI-CO4="));
-        slideModels.add(new SlideModel("https://www.rover.com/blog/wp-content/uploads/iStock-1314014966-960x540.jpg"));
-        slideModels.add(new SlideModel("https://i.ikman-st.com/kasl-registered-rottweiler-puppies-for-sale-gampaha-10/14a7f61f-175f-4c6a-957a-93b93e1fe834/620/466/fitted.jpg"));
-        slideModels.add(new SlideModel("https://animalwellnessmagazine.com/wp-content/uploads/dog-with-towel-on-head-e1519402284830.jpg"));
+        slideModels.add(new SlideModel("https://github.com/SJ-Software-Engineering-and-Development/puppy_grooming_and_selling_app/blob/main/public/FB_IMG_1653101972979.jpg?raw=true"));
+        slideModels.add(new SlideModel("https://github.com/SJ-Software-Engineering-and-Development/puppy_grooming_and_selling_app/blob/main/public/FB_IMG_1653101937329.jpg?raw=true"));
+        slideModels.add(new SlideModel("https://github.com/SJ-Software-Engineering-and-Development/puppy_grooming_and_selling_app/blob/main/public/FB_IMG_1653101931450.jpg?raw=true"));
+        slideModels.add(new SlideModel("https://github.com/SJ-Software-Engineering-and-Development/puppy_grooming_and_selling_app/blob/main/public/FB_IMG_1653103765264.jpg?raw=true"));
         sliderPostImages.setImageList(slideModels, true);
 
         chip_add_cource.setOnClickListener(new View.OnClickListener() {
