@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bground"
+    tools:context=".activity.Education">
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/Puppy_Education"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:background="@color/black"
+        android:padding="10dp"
+        android:text="Education"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="40dp"/>
+
+
+    <TextView
+        android:id="@+id/Puppy_Education_Details"
+        android:layout_width="388dp"
+        android:layout_height="264dp"
+        android:layout_below="@id/Puppy_Education"
+        android:layout_marginTop="4dp"
+        android:text="Learning is an essential thing for all dog lovers and all puppy users.
+So from this learning page you can fulfill that requirement.
+Mr. Shenal Fernando, the owner of Bright Canal and Bath House, will provide you with all the tutorials you need at no charge.
+Everyone can watch the tutorial videos on YouTube from the link here.
+"
+        android:textColor="@android:color/black"
+        android:textSize="25dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="95dp" />
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/YtLin01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:videoId="@string/youtubeLink1"
+        app:autoPlay="false"
+
+        android:layout_below="@id/Puppy_Education_Details"
+
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bground"
+    tools:context=".activity.AddPost">
+
+    <TextView
+        android:id="@+id/Puppy_Add_Post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:padding="10dp"
+        android:text="Add Post"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Add_InsertImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Puppy_Add_Post"
+        android:text="Add 3 Images"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="82dp"
+        android:layout_height="76dp"
+        android:layout_below="@+id/Add_InsertImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="301dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="46dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="320dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="99dp"
+        android:layout_height="77dp"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="-68dp"
+        android:layout_marginRight="-139dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="46dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignRight="@+id/imageButton1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="182dp"
+        android:layout_marginRight="-137dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="99dp"
+        android:layout_height="77dp"
+        android:layout_below="@+id/imageView1"
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="-67dp"
+        android:layout_marginRight="-133dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="46dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/imageView3"
+        android:layout_alignRight="@+id/imageButton2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="-194dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <EditText
+        android:id="@+id/Add_Bread"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Breed"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+
+    <EditText
+        android:id="@+id/Add_Age"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Bread"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Age"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Age"
+        android:text="Mother" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="139dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox1"
+        android:text="Father" />
+
+    <EditText
+        android:id="@+id/Add_Location"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox2"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Location"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/Add_Owner_Name"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Location"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Owner"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/Add_Price"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Owner_Name"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Price"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/Add_Contact_No"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Price"
+        android:layout_marginLeft="08dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="Contact Number"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/button_Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Add_Contact_No"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="159dp"
+        android:text="Post" />
+
+
+</RelativeLayout>

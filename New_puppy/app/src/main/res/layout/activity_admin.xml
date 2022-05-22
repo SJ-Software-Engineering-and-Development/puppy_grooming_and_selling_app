@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bground"
+    tools:context=".activity.Admin">
+
+<!--    <Spinner-->
+<!--        android:id="@+id/main_spinner"-->
+<!--        android:layout_width="405dp"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:entries="@array/SpinnerMenu"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:layout_editor_absoluteX="0dp"-->
+<!--        tools:layout_editor_absoluteY="2dp" />-->
+
+    <Button
+        android:id="@+id/admin_booking_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bookinges"
+
+
+        />
+
+    <Button
+        android:id="@+id/admin_Users_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Users"
+        android:layout_below="@+id/admin_booking_view"
+        />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/admin_Users_View"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+
+</RelativeLayout>

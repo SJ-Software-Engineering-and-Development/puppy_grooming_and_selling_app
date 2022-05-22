@@ -1,0 +1,58 @@
+<resources>
+
+    <string name="app_name">New_puppy</string>
+    <string name="app_shared_pre">puppy_app</string>
+    <string-array name="SpinnerMenu">
+        <item>Home</item>
+        <item>Education</item>
+        <item>Bath House</item>
+        <item>Veterinarians</item>
+        <item>Bright Kennal</item>
+        <item>About</item>
+
+    </string-array>
+
+
+    <!--        About-->
+
+    <string name="Puppyabout">It is a mobile application and its developed for every dog lovers and breeders.
+        The first link to the puppy application is the Bright Kennel Club puppy application By using it you get a lot of
+        everyday work Easy. This application will help you a great deal when selling, buying, crossing, searching for veterinarians,
+        searching for dog items and even cleaning dogs.</string>
+    <string name="youtubeLink1"><![CDATA[uOtFuHvfkow&t=1s]]></string>
+
+
+    <!--    Bath House-->
+
+
+    <string name="PuppyBath">A place that caters to all breeds of dogs. Here as services to dogs<br></br>
+Dog bathing,<br></br> dog fur removal,<br></br> dog claw removal, <br></br>dog ear cleaning,<br></br> dog grooming with new styling techniques and even the only dog-only exercise bodybuilding service in Sri Lanka are available here.<br></br>
+If you are BKL member, You can get a lot of privileges, all festive seasons.<br></br>
+You can see more details on the education page.<br></br>
+Open Time – 08.30 am  to  Close Time 08.30 pm<br></br>
+Location – Panadura modara road<br></br>
+Contact No - 077
+</string>
+
+
+    <!--    booking resource-->
+
+    <string-array name="BookingMenu">
+        <item>Basic Groom(Rs.3500)</item>
+        <item>Basic Groom VIP(Rs.4000)</item>
+        <item>Full Groom(Rs.4900)</item>
+        <item>Full Groom VIP(Rs.5400)</item>
+        <item>Bath and Dry(Rs.2000)</item>
+        <item>Bath and Dry VIP(Rs.2200)</item>
+        <item>Ear Clean(Rs.800)</item>
+        <item>Ear Clean VIP(Rs.1000)</item>
+        <item>Groom(Rs.1000)</item>
+        <item>Wool Cut(Rs.1600)</item>
+        <item>Nails Clip(Rs.600)</item>
+
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

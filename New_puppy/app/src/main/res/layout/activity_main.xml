@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <Spinner
+        android:id="@+id/main_spinner"
+        android:layout_width="405dp"
+        android:layout_height="43dp"
+        android:entries="@array/SpinnerMenu"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="2dp" />
+
+    <ImageButton
+        android:id="@+id/Add_Post_Open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:layout_editor_absoluteX="188dp"
+        tools:layout_editor_absoluteY="616dp" />
+
+
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/frameLayout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="42dp"-->
+    <!--        android:layout_gravity=""-->
+    <!--        android:orientation="horizontal">-->
+
+
+    <!--    </FrameLayout>-->
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="355dp"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_centerVertical="true"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:src="@drawable/dogfoot"-->
+
+    <!--        tools:layout_editor_absoluteX="40dp"-->
+    <!--        tools:layout_editor_absoluteY="81dp" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:text="PUPPY APPLICATION"-->
+    <!--        android:textSize="34sp"-->
+    <!--        tools:layout_editor_absoluteX="29dp"-->
+    <!--        tools:layout_editor_absoluteY="372dp"-->
+    <!--        tools:ignore="MissingConstraints" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView1"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:text="Best One In The Best Way"-->
+    <!--        android:textSize="24sp"-->
+    <!--        tools:layout_editor_absoluteX="48dp"-->
+    <!--        tools:layout_editor_absoluteY="319dp" />-->
+
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="59dp"-->
+    <!--        android:layout_gravity=""-->
+    <!--        android:orientation="horizontal"-->
+    <!--        tools:layout_editor_absoluteX="-1dp"-->
+    <!--        tools:layout_editor_absoluteY="673dp">-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/button"-->
+    <!--            android:layout_width="50dp"-->
+    <!--            android:layout_height="50dp"-->
+    <!--            android:layout_gravity="right"-->
+    <!--            android:background="@drawable/accounticon"-->
+    <!--            app:iconTint="@color/black" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/button2"-->
+    <!--            android:layout_width="50dp"-->
+    <!--            android:layout_height="50dp"-->
+    <!--            android:background="@drawable/educationicon"-->
+    <!--            android:text="Button" />-->
+    <!--    </FrameLayout>-->
+
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="408dp"-->
+    <!--        android:layout_height="75dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--        <Spinner-->
+    <!--            android:id="@+id/spinner"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="match_parent" />-->
+    <!--    </FrameLayout>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bground"
+    android:contextClickable="false">
+
+
+    <TextView
+        android:id="@+id/Puppy_About"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:padding="10dp"
+        android:text="About"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        tools:targetApi="ice_cream_sandwich" />
+
+
+
+<!--    <ScrollView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/Puppy_About">-->
+
+
+
+
+    <TextView
+        android:id="@+id/about_puppy_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Puppy_About"
+        android:layout_marginTop="9dp"
+        android:lineSpacingExtra="5dp"
+        android:text="Puppy"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        tools:targetApi="ice_cream_sandwich" />
+
+    <ImageView
+        android:id="@+id/about_puppy_logo"
+        android:layout_width="231dp"
+        android:layout_height="190dp"
+        android:layout_below="@id/about_puppy_head"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="92dp"
+        android:src="@drawable/dogfoot" />
+
+    <TextView
+        android:id="@+id/puppy_about_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_puppy_logo"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/Puppyabout"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textSize="16sp"
+        tools:targetApi="ice_cream_sandwich" />
+
+
+
+
+    <TextView
+        android:id="@+id/about_bkla_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/puppy_about_details"
+        android:layout_marginTop="9dp"
+        android:lineSpacingExtra="5dp"
+        android:text="Bright Kennal"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        tools:targetApi="ice_cream_sandwich" />
+
+
+    <ImageView
+        android:id="@+id/about_bkla_logo"
+        android:layout_width="232dp"
+        android:layout_height="208dp"
+        android:layout_below="@id/about_bkla_head"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="86dp"
+        android:src="@drawable/bkla_logo" />
+
+    <TextView
+        android:id="@+id/puppy_about_details2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/about_bkla_logo"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/Puppyabout"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+
+    <TextView
+        android:id="@+id/puppy_about_details3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/puppy_about_details2"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/Puppyabout"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
+
+<!--    </ScrollView>-->
+
+
+
+
+
+
+
+
+</RelativeLayout>
