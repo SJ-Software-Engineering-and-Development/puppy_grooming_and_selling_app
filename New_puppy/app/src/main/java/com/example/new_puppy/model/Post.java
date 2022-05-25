@@ -10,11 +10,13 @@ public class Post {
     private String date;
     private String location;
     private String imageUrl;
+    private PostStatus status;
+    private int owner_id;
 
     public Post() {
     }
 
-    public Post(int id, String title, String price, String description, String gender, String age, String date, String location, String imageUrl) {
+    public Post(int id, String title, String price, String description, String gender, String age, String date, String location, String imageUrl, PostStatus status, int owner_id) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -24,14 +26,8 @@ public class Post {
         this.date = date;
         this.location = location;
         this.imageUrl = imageUrl;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+        this.status = status;
+        this.owner_id = owner_id;
     }
 
     public int getId() {
@@ -90,11 +86,35 @@ public class Post {
         this.date = date;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public PostStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PostStatus status) {
+        this.status = status;
+    }
+
+    public int getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(int owner_id) {
+        this.owner_id = owner_id;
     }
 }

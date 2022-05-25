@@ -46,10 +46,10 @@
         android:id="@+id/booking_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/Puppy_Booking"
         android:background="@android:drawable/btn_dropdown"
         android:entries="@array/BookingMenu"
-        android:textAlignment="center"
-        android:layout_below="@+id/Puppy_Booking"/>
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/Booking_Receve_Date"

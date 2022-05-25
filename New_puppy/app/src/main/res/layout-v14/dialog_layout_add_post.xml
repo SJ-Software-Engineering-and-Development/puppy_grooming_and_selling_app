@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:layout_weight="1"
-                        android:text="Add New Cource"
+                        android:text="Add New Post"
                         android:textColor="@color/colorAppPrimary"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -52,16 +52,62 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:hint="Cource Name"
+                        android:hint="Post title"
                         app:boxStrokeColor="@color/colorAppPrimary"
                         app:hintTextColor="@color/colorAppPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_name"
+                            android:id="@+id/txt_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:paddingVertical="10dp"
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:singleSelection="false">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_male"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Male"
+                            app:chipStartPadding="7dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_female"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Female"
+                            app:chipStartPadding="7dp" />
+
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="7dp"
+                        android:hint="Price"
+                        app:boxStrokeColor="@color/colorAppPrimary"
+                        app:hintTextColor="@color/colorAppPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="10dp"
+                            android:inputType="numberDecimal"
                             tools:ignore="TouchTargetSizeCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,16 +116,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:hint="NVQ Level"
+                        android:hint="Description"
                         app:boxStrokeColor="@color/colorAppPrimary"
                         app:hintTextColor="@color/colorAppPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_nvq_level"
+                            android:id="@+id/txt_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minLines="6"
+                            android:maxLines="15"
+                            android:paddingVertical="10dp"
+                            android:inputType="textMultiLine"
+                            android:lines="4"
+
+                            tools:ignore="TouchTargetSizeCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="7dp"
+                        android:hint="Age"
+                        app:boxStrokeColor="@color/colorAppPrimary"
+                        app:hintTextColor="@color/colorAppPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_age"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
-                            android:inputType="text"
+                            android:inputType="numberDecimal"
                             tools:ignore="TouchTargetSizeCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,12 +158,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
-                        android:hint="Language"
+                        android:hint="Location"
                         app:boxStrokeColor="@color/colorAppPrimary"
                         app:hintTextColor="@color/colorAppPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_language"
+                            android:id="@+id/txt_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
@@ -101,23 +171,6 @@
                             tools:ignore="TouchTargetSizeCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:hint="Duration"
-                        app:boxStrokeColor="@color/colorAppPrimary"
-                        app:hintTextColor="@color/colorAppPrimary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_duration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:inputType="text"
-                            tools:ignore="TouchTargetSizeCheck" />
-                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_add_image"

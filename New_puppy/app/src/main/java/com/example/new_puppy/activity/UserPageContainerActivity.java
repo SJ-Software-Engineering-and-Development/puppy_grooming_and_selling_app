@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.new_puppy.databinding.ActivityUserPageContainerBinding;
+import com.example.new_puppy.fragment.AdminHomeFragment;
 import com.example.new_puppy.fragment.MyBookingFragment;
 import com.example.new_puppy.fragment.MyPostFragment;
 import com.example.new_puppy.fragment.MyProfileFragment;
@@ -88,9 +89,9 @@ public class UserPageContainerActivity extends AppCompatActivity {
     public void onBackPressed() {
        // super.onBackPressed();
         switch (Navigation.currentScreen){
-            case "f1":
+            case "ViewPostFragment":
             case "f2":
-               // replaceFragment(new GNHomeFragment());
+                replaceFragment(new PostListingFragment());
                 break;
             case "f3":
               //  replaceFragment(new AddDisasterFragment());

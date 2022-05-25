@@ -13,6 +13,7 @@ import com.example.new_puppy.R;
 import com.example.new_puppy.databinding.ActivityAdminageContainerBinding;
 
 import com.example.new_puppy.fragment.AdminHomeFragment;
+import com.example.new_puppy.fragment.AdminPostListFragment;
 import com.example.new_puppy.fragment.MyProfileFragment;
 import com.example.new_puppy.fragment.PostListingFragment;
 import com.example.new_puppy.fragment.UserHomeFragment;
@@ -28,7 +29,6 @@ public class AdminageContainerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_adminage_container);
-
 
         sharedPre= getSharedPreferences(getResources().getString(R.string.app_shared_pre), 0);
 
@@ -81,12 +81,12 @@ public class AdminageContainerActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
         switch (Navigation.currentScreen){
-            case "f1":
-            case "f2":
-                // replaceFragment(new GNHomeFragment());
+            case "ViewPostFragment":
+            case "GOTO_AdminPostListFragment":
+                 replaceFragment(new AdminPostListFragment());
                 break;
-            case "f3":
-                //  replaceFragment(new AddDisasterFragment());
+            case "GOTO_PostListingFragment":
+                  replaceFragment(new PostListingFragment());
                 break;
             case "AdminHomeFragment":
                 // super.onBackPressed();

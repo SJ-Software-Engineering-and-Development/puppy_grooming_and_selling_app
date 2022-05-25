@@ -104,6 +104,7 @@ tools:context=".fragment.AdminHomeFragment">
                 />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
@@ -197,7 +198,7 @@ tools:context=".fragment.AdminHomeFragment">
                 >
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardPeoples"
+                    android:id="@+id/card_bookings"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
                     android:clickable="true"
@@ -233,7 +234,7 @@ tools:context=".fragment.AdminHomeFragment">
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardLocalDisasters"
+                    android:id="@+id/card_users"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
                     android:clickable="true"

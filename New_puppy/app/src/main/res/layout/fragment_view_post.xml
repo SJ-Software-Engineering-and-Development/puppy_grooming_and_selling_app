@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".fragment.ViewPostFragment"
+android:background="#F1F1F1"
+android:padding="5dp">
+
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Media -->
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/sliderPostImages"
+                    android:layout_width="400dp"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="1dp"
+                    android:onClick="myFunct"
+                    app:auto_cycle="true"
+                    app:corner_radius="0"
+                    app:delay="3000"
+                    app:error_image="@color/colorWhite"
+                    app:period="3000"
+                    app:placeholder="@color/colorWhite" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:id="@+id/txt_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        <TextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="10dp"
+                            android:text=""
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textStyle="italic"
+                            android:textSize="16sp"
+                            android:layout_gravity="left"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="start"
+                                android:layout_marginTop="5dp"
+                                android:scaleType="centerCrop"
+                                android:scaleX="0.8"
+                                android:scaleY="0.8"
+                                android:src="@drawable/ic_baseline_location_on_24" />
+
+                            <TextView
+                                android:id="@+id/txtLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:text="location"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="?android:attr/textColorSecondary"
+                                android:textSize="16sp"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="start"
+                                android:layout_marginTop="5dp"
+                                android:scaleType="centerCrop"
+                                android:scaleX="0.8"
+                                android:scaleY="0.8"
+                                android:src="@drawable/ic_baseline_price_change_24" />
+
+                            <TextView
+                                android:id="@+id/txtPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:text="price"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="?android:attr/textColorSecondary"
+                                android:textSize="16sp"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="start"
+                                android:layout_marginTop="5dp"
+                                android:scaleType="centerCrop"
+                                android:scaleX="0.8"
+                                android:scaleY="0.8"
+                                android:src="@drawable/ic_baseline_call_merge_24" />
+
+                            <TextView
+                                android:id="@+id/txtGender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:text="gender"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="?android:attr/textColorSecondary"
+                                android:textSize="16sp"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Description"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:layout_gravity="left"/>
+                        <TextView
+                            android:id="@+id/txtDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Description \nDescription  \nDescription  \nDescription"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textSize="16sp"
+                            android:layout_gravity="left"/>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginVertical="10dp"
+                            app:dividerInsetStart="1dp"
+                            app:dividerInsetEnd="1dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Seller"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/tv_DivNameAndRegNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Contact seller"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="20dp"
+                            android:orientation="horizontal">
+                            <!--  Card Left  -->
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/imageGN"
+                                android:layout_width="70dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="10dp"
+                                app:civ_border_width="1dp"
+                                app:civ_border_color="@color/colorAppPrimary"
+                                android:src="@drawable/ic_baseline_account_circle_24" />
+                            <!--  Card Left  -->
+                            <!--  Card Right  -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="10dp">
+                                <TextView
+                                    android:id="@+id/txtSellerName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="18sp"
+                                    android:text="Name of the user"
+                                    android:textAppearance="?attr/textAppearanceHeadline6"
+                                    />
+                                <TextView
+                                    android:id="@+id/txtSellerEmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:textSize="13sp"
+                                    android:text="Email"
+                                    android:textStyle="bold"
+                                    android:textAppearance="?attr/textAppearanceBody2"
+                                    android:textColor="@color/darkYellow"
+                                    />
+                                <TextView
+                                    android:id="@+id/txtSellerContact"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="contact number"
+                                    android:textSize="15sp"
+                                    android:textStyle="italic"
+                                    android:textAppearance="?attr/textAppearanceBody2"
+                                    android:textColor="@color/darkYellow"
+                                    />
+                            </LinearLayout>
+                            <!-- .\Card Right  -->
+                        </LinearLayout>
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/deviver_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginVertical="10dp"
+                            app:dividerInsetStart="1dp"
+                            app:dividerInsetEnd="1dp"/>
+
+                        <TextView
+                            android:id="@+id/labelCurrentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Take Action"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/txtCurrentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="status"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textStyle="bold"/>
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/chip_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:singleSelection="false">
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_publish"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="publish"
+                                    app:chipStartPadding="7dp" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_deny"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="deny request"
+                                    app:chipStartPadding="7dp" />
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_deactive"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="deactive"
+                                    app:chipStartPadding="7dp" />
+                            </com.google.android.material.chip.ChipGroup>
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

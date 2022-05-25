@@ -9,25 +9,25 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.new_puppy.R;
-import com.example.new_puppy.fragment.PostListingFragment;
-import com.example.new_puppy.model.Post;
-import com.example.new_puppy.utils.ListItemAnimation;
-import com.squareup.picasso.Picasso;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.new_puppy.R;
+import com.example.new_puppy.fragment.AdminPostListFragment;
+import com.example.new_puppy.model.Post;
+import com.example.new_puppy.utils.ListItemAnimation;
+import com.google.android.material.button.MaterialButton;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclerviewAdapter.UsersRecyclerviewHolder>{
-
+public class AdminPostRecyclerviewAdapter extends RecyclerView.Adapter<AdminPostRecyclerviewAdapter.UsersRecyclerviewHolder>{
     Context context;
     List<Post> dataList;
     List<Post> filteredDataList;
 
-    public PostRecyclerviewAdapter(Context context, List<Post> userList) {
+    public AdminPostRecyclerviewAdapter(Context context, List<Post> userList) {
         this.context = context;
         this.dataList = userList;
         this.filteredDataList = userList;
@@ -35,21 +35,19 @@ public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclervi
 
     @NonNull
     @Override
-    public UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdminPostRecyclerviewAdapter.UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.post_recyclerview_item, parent, false);
-        return new UsersRecyclerviewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.admin_post_recycler_item, parent, false);
+        return new AdminPostRecyclerviewAdapter.UsersRecyclerviewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull AdminPostRecyclerviewAdapter.UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-        holder.title.setText(filteredDataList.get(position).getTitle());
-        holder.secondaryText.setText(filteredDataList.get(position).getDate());
-        holder.bottomLText.setText(filteredDataList.get(position).getLocation());
-        holder.bottomRText.setText("Rs."+filteredDataList.get(position).getPrice());
-        holder.txtLevel.setText(filteredDataList.get(position).getGender());
-        Picasso.get().load(filteredDataList.get(position).getImageUrl()).into(holder.cardimage);
+        holder.txtTitle.setText(filteredDataList.get(position).getTitle());
+        holder.txtStatus.setText(filteredDataList.get(position).getStatus().toString());
+        holder.txtDate.setText(filteredDataList.get(position).getDate());
+       // Picasso.get().load(filteredDataList.get(position).getImageUrl()).into(holder.cardimage);
 
         ListItemAnimation.animateFadeIn(holder.itemView, position);
 
@@ -57,7 +55,14 @@ public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclervi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PostListingFragment.listItemOnClick(filteredDataList.get(position).getId());
+                AdminPostListFragment.listItemOnClick(filteredDataList.get(position).getId());
+            }
+        });
+
+        holder.btnActions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdminPostListFragment.listItemOnClick(filteredDataList.get(position).getId());
             }
         });
     }
@@ -69,18 +74,18 @@ public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclervi
 
     public static final class UsersRecyclerviewHolder extends RecyclerView.ViewHolder {
 
-        TextView title,secondaryText,bottomLText,bottomRText,txtLevel;
+        TextView txtTitle, txtStatus, txtDate;
         ImageView cardimage;
+        MaterialButton btnActions;
 
         //        CircleImageView imageDisaster;
         public UsersRecyclerviewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.cardTitle);
-            secondaryText = itemView.findViewById(R.id.cardSecondText);
-            bottomLText = itemView.findViewById(R.id.bottomLText);
-            bottomRText = itemView.findViewById(R.id.bottomRText);
-            txtLevel = itemView.findViewById(R.id.txtLevel);
-            cardimage = itemView.findViewById(R.id.item_image);
+            txtTitle = itemView.findViewById(R.id.txtTitle);
+            txtStatus = itemView.findViewById(R.id.txtStatus);
+            txtDate = itemView.findViewById(R.id.txtDate);
+            btnActions = itemView.findViewById(R.id.btnActions);
+            cardimage = itemView.findViewById(R.id.imageItem);
         }
     }
 
@@ -116,7 +121,5 @@ public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclervi
                 notifyDataSetChanged();
             }
         };
-
     }
-
 }
