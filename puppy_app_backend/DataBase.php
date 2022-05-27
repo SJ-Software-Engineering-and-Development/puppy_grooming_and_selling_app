@@ -109,6 +109,27 @@ class DataBase
         return $response;
     }
 
+    public function getUsers()
+    {
+        $response = array();
+
+        $this->sql = "SELECT * FROM login_user_register";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
     public function Booking(
         $PackageType,
         $Date,
@@ -180,6 +201,27 @@ class DataBase
         $response = array();
 
         $this->sql = "SELECT * FROM post WHERE status = '{$status}'";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function getPostsByUserId($status, $user_id)
+    {
+        $response = array();
+
+        $this->sql = "SELECT * FROM post WHERE status = '{$status}' AND owner_id={$user_id} ";
         $result    = mysqli_query($this->connect, $this->sql);
         if ($result) {
 
@@ -271,6 +313,68 @@ class DataBase
         return $response;
     }
 
+    public function getBookedSlotsByUserId($date, $login_id)
+    {
+        $response = array();
+        //booking_slots
+        // SELECT bath_house_booking.*, booking_slots.from_time, booking_slots.to_time FROM bath_house_booking
+        // INNER JOIN booking_slots
+        // ON bath_house_booking.booking_slot_id = booking_slots.id
+
+        $sql = "SELECT  bath_house_booking.*, booking_slots.from_time, booking_slots.to_time FROM bath_house_booking ";
+        $sql .= " INNER JOIN booking_slots ";
+        $sql .= " ON bath_house_booking.booking_slot_id = booking_slots.id ";
+        $sql .= " WHERE bath_house_booking.date = '{$date}' AND bath_house_booking.user_id = $login_id ";
+
+        $this->sql = $sql;
+
+        $result = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function getBookedSlotsByDate($date)
+    {
+        $response = array();
+        //booking_slots
+        // SELECT bath_house_booking.*, booking_slots.from_time, booking_slots.to_time FROM bath_house_booking
+        // INNER JOIN booking_slots
+        // ON bath_house_booking.booking_slot_id = booking_slots.id
+
+        $sql = "SELECT  bath_house_booking.*, booking_slots.from_time, booking_slots.to_time FROM bath_house_booking ";
+        $sql .= " INNER JOIN booking_slots ";
+        $sql .= " ON bath_house_booking.booking_slot_id = booking_slots.id ";
+        $sql .= " WHERE bath_house_booking.date = '{$date}' ";
+
+        $this->sql = $sql;
+
+        $result = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
     public function bookSlot($package_type, $date, $user_id, $booking_slot_id)
     {
         $response = false;
@@ -287,6 +391,110 @@ class DataBase
         }
         return $response;
     }
+
+    public function addVeterinary(
+        $title,
+        $city,
+        $address,
+        $contact,
+        $open_close_times,
+        $longitude,
+        $latitude) {
+
+        $title            = $this->prepareData($title);
+        $city             = $this->prepareData($city);
+        $address          = $this->prepareData($address);
+        $contact          = $this->prepareData($contact);
+        $open_close_times = $this->prepareData($open_close_times);
+        $longitude        = $this->prepareData($longitude);
+        $latitude         = $this->prepareData($latitude);
+
+        $sql = "INSERT INTO `veterinary` (`title`,`city`,`address`,`contact`,`open_close_times`,`longitude`,`latitude`) VALUES ";
+        $sql .= "('{$title}','{$city}','{$address}','{$contact}','{$open_close_times}','{$longitude}','{$latitude}' ) ";
+
+        $this->sql = $sql;
+
+        if (mysqli_query($this->connect, $this->sql)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public function getVeterinaries()
+    {
+        $response = array();
+
+        $sql       = "SELECT  * FROM veterinary ";
+        $this->sql = $sql;
+
+        $result = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function getVeterinaryByCity($city)
+    {
+        $response = array();
+
+        $sql = "";
+        if ($city == "") {
+            $sql = "SELECT * FROM veterinary";
+        } else {
+            $sql = "SELECT * FROM veterinary WHERE city = '{$city}' ";
+        }
+        $this->sql = $sql;
+
+        $result = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function getVeterinaryById($id)
+    {
+        $response = "";
+
+        $sql = "SELECT  * FROM veterinary WHERE id = {$id} LIMIT 1";
+
+        $this->sql = $sql;
+
+        $result = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                $response = mysqli_fetch_assoc($result);
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
 }
 
 ?>

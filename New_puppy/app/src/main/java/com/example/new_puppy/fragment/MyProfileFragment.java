@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.example.new_puppy.activity.Login;
 import com.example.new_puppy.model.User;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.RetrofitClient;
+import com.example.new_puppy.utils.UserStorage;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
@@ -93,7 +95,13 @@ public class MyProfileFragment extends Fragment {
         txtConfirmNewPassword = (TextInputEditText) getView().findViewById(R.id.txtConfirmNewPassword);
         btnLogout = (Button) getView().findViewById(R.id.btnLogout);
 
-        getUser(this.login_id);
+        if(UserStorage.user!=null){
+            if(UserStorage.user.getId() != 0){
+                updateView();
+            }else
+                getUser(this.login_id);
+        }else getUser(this.login_id);
+
 
         initEvents();
     }
@@ -121,7 +129,10 @@ public class MyProfileFragment extends Fragment {
                             if(jsnobject.getString("success").equals("1")){
                                 JSONObject userObj = new JSONObject(jsnobject.getString("data"));
                                 User user = new User(Integer.parseInt(userObj.getString("id")),userObj.getString("Full Name"),userObj.getString("Nic Number"),userObj.getString("City"),userObj.getString("User Type"),userObj.getString("E-mail"),userObj.getString("Contact No"));
-                                updateView(user);
+
+                                //Save user in static variable
+                                UserStorage.user = user;
+                                updateView();
                             }
                         } catch (JSONException e) {
                             System.out.println("_==================error");
@@ -150,10 +161,10 @@ public class MyProfileFragment extends Fragment {
         });
     }
 
-    private void updateView(User user){
-        tvOwnerName.setText(user.getFullName());
-        tvOwnerEmail.setText(user.getEmail());
-        tvRole.setText(user.getUserType());
+    private void updateView(){
+        tvOwnerName.setText(UserStorage.user.getFullName());
+        tvOwnerEmail.setText(UserStorage.user.getEmail());
+        tvRole.setText(UserStorage.user.getUserType());
     }
 
     private void initEvents(){
@@ -161,10 +172,13 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(AppSharedPreferences.getData(sharedPre,"login_id") != null){
-                    // Remove user's data
+                    // Remove user's data from SharedPreferences
                     AppSharedPreferences.removeData(sharedPre,"login_id");
                     AppSharedPreferences.removeData(sharedPre,"user_role");
                     AppSharedPreferences.removeData(sharedPre,"user_nic");
+
+                    //Clear Static variable
+                    UserStorage.user = null;
                 }
                 startActivity(new Intent(getActivity(), Login.class));
             }

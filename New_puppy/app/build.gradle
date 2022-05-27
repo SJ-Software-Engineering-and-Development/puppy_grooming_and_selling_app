@@ -63,4 +63,12 @@ dependencies {
 
     //  newer version->  implementation 'com.github.denzcoskun:ImageSlideShow:0.1.0'
     implementation 'com.github.denzcoskun:ImageSlideShow:0.0.6'
+
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.github.mirrajabi:search-dialog:1.2.4'
 }

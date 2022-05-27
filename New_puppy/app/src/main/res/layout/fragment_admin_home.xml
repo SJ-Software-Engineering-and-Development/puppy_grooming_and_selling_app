@@ -47,7 +47,7 @@ tools:context=".fragment.AdminHomeFragment">
                 android:orientation="vertical"
                 android:layout_marginLeft="10dp">
                 <TextView
-                    android:id="@+id/tvOwnerName"
+                    android:id="@+id/txtNameOfUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
@@ -55,7 +55,7 @@ tools:context=".fragment.AdminHomeFragment">
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     />
                 <TextView
-                    android:id="@+id/tvOwnerEmail"
+                    android:id="@+id/txtEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -66,7 +66,7 @@ tools:context=".fragment.AdminHomeFragment">
                     android:textColor="@color/colorAppPrimary"
                     />
                 <TextView
-                    android:id="@+id/txtDetail2"
+                    android:id="@+id/txtUserRole"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -196,7 +196,6 @@ tools:context=".fragment.AdminHomeFragment">
                 android:gravity="center_horizontal"
                 android:paddingVertical="15dp"
                 >
-
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_bookings"
                     android:layout_width="160dp"
@@ -262,14 +261,13 @@ tools:context=".fragment.AdminHomeFragment">
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="other details"
+                            android:text="users details"
                             android:textSize="13sp"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="@color/colorAppPrimary"
                             />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
             </LinearLayout>
             <!--  Card row 1 End -->
 
@@ -278,11 +276,94 @@ tools:context=".fragment.AdminHomeFragment">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:paddingVertical="15dp"
+                >
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_veterinary"
+                    android:layout_width="160dp"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:checkable="true"
+                    app:cardElevation="5dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:contentPadding="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Veterinary"
+                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/tvVeterinaryCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0 veterinareis"
+                            android:textSize="13sp"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorAppPrimary"
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_other"
+                    android:layout_width="160dp"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:checkable="true"
+                    app:cardElevation="5dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:contentPadding="12dp"
+                    android:visibility="invisible"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Users"
+                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/tv34545"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="users details"
+                            android:textSize="13sp"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorAppPrimary"
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+            <!--  Card row 3 End -->
+
+            <!--  space  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:layout_marginVertical="10dp"
                 >
 
             </LinearLayout>
-            <!--  Card row 2 End -->
+            <!--  space -->
 
 
 

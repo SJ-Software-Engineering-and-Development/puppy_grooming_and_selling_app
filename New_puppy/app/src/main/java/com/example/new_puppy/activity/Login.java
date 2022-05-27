@@ -38,7 +38,6 @@ public class Login extends AppCompatActivity {
 
     private SharedPreferences sharedPre;
 
-    Button buttoneka;
     static String apiBaseUrl = "";
 
     @Override
@@ -58,15 +57,6 @@ public class Login extends AppCompatActivity {
         btnNewuserSignUp = findViewById(R.id.btnNewuserSignUp);
         buttonLogin = findViewById(R.id.btnUserLogin);
         LogoName = findViewById(R.id.LogoName);
-
-        buttoneka = findViewById(R.id.buttoneka);
-
-        buttoneka.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context,Bath_House_Booking.class));
-            }
-        });
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

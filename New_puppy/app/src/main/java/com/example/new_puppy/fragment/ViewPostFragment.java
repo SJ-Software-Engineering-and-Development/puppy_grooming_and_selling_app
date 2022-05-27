@@ -261,6 +261,8 @@ public class ViewPostFragment extends Fragment {
 
             switch (post.getStatus().toString()){
                 case "pending":
+                    chip_publish.setVisibility(View.VISIBLE);
+                    chip_deny.setVisibility(View.VISIBLE);
                     break;
                 case "active":
                     chip_publish.setVisibility(View.GONE);
@@ -268,8 +270,10 @@ public class ViewPostFragment extends Fragment {
                     break;
                 case "denied":
                     chip_deny.setVisibility(View.GONE);
+                    chip_publish.setVisibility(View.VISIBLE);
                     break;
                 case "deactive":
+                    chip_publish.setVisibility(View.VISIBLE);
                     chip_deactive.setVisibility(View.GONE);
                     chip_deny.setVisibility(View.GONE);
                     break;
@@ -288,21 +292,27 @@ public class ViewPostFragment extends Fragment {
         chip_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePostStatus(PostStatus.active);
+                takeAction(PostStatus.active);
             }
         });
         chip_deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePostStatus(PostStatus.denied);
+                takeAction(PostStatus.denied);
             }
         });
         chip_deactive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatePostStatus(PostStatus.deactive);
+                takeAction(PostStatus.deactive);
             }
         });
+    }
+
+    private void takeAction(PostStatus postStatus){
+        showConfirmDialog(context, "Confirm", "Are you sure to "+postStatus.toString() +" this post?",
+                ()->{ updatePostStatus(postStatus);},
+                ()->{});
     }
 
     private void updatePostStatus(PostStatus postStatus){
@@ -379,6 +389,34 @@ public class ViewPostFragment extends Fragment {
                         (dialog2, which) -> {
                             dialog2.dismiss();
                             if (confirmCallback != null) confirmCallback.run();
+                        })
+                .show();
+    }
+
+    public static  void showConfirmDialog(
+            @NonNull final Context context,
+            String title,
+            String message,
+            @Nullable Runnable confirmCallback,
+            @Nullable Runnable cancelCallback
+    ) {
+        //TODO: Add TextInput Programatically...
+        //  E.g. TextInputEditText myInput = new TextInputEditText(getContext());
+        //  MaterialAlertDialogBuilder(context).addView(myInput)  <- Possible
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("Yes",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (confirmCallback != null) confirmCallback.run();
+                        })
+                .setNegativeButton("Not now",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (cancelCallback != null) cancelCallback.run();
                         })
                 .show();
     }

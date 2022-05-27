@@ -48,6 +48,7 @@ public class AdminPostRecyclerviewAdapter extends RecyclerView.Adapter<AdminPost
         holder.txtStatus.setText(filteredDataList.get(position).getStatus().toString());
         holder.txtDate.setText(filteredDataList.get(position).getDate());
        // Picasso.get().load(filteredDataList.get(position).getImageUrl()).into(holder.cardimage);
+        holder.cardimage.setImageResource(R.drawable.ic_baseline_newspaper_yellow_24);
 
         ListItemAnimation.animateFadeIn(holder.itemView, position);
 

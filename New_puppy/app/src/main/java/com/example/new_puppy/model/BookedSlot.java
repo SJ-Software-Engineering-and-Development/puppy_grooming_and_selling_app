@@ -1,7 +1,7 @@
 package com.example.new_puppy.model;
 
 public class BookedSlot {
-   private int id;
+    private int id;
     private String package_type;
     private String date;
     private int user_id;

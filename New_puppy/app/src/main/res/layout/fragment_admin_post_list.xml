@@ -108,7 +108,7 @@ tools:context=".fragment.AdminPostListFragment">
                     />
 
                 <TextView
-                    android:id="@+id/labelNoOfVaccines"
+                    android:id="@+id/labelNoOfItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"

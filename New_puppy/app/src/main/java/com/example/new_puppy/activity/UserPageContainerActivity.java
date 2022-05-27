@@ -6,18 +6,16 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.new_puppy.R;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.new_puppy.databinding.ActivityUserPageContainerBinding;
-import com.example.new_puppy.fragment.AdminHomeFragment;
-import com.example.new_puppy.fragment.MyBookingFragment;
-import com.example.new_puppy.fragment.MyPostFragment;
 import com.example.new_puppy.fragment.MyProfileFragment;
 import com.example.new_puppy.fragment.PostListingFragment;
+import com.example.new_puppy.fragment.UserBookingListFragment;
 import com.example.new_puppy.fragment.UserHomeFragment;
+import com.example.new_puppy.fragment.UserPostListFragment;
 import com.example.new_puppy.utils.Navigation;
 
 public class UserPageContainerActivity extends AppCompatActivity {
@@ -64,10 +62,10 @@ public class UserPageContainerActivity extends AppCompatActivity {
                     break;
                 case R.id.my_booking:
                     if(!user_nic.equals(""))
-                       replaceFragment(new MyBookingFragment());
+                       replaceFragment(new UserBookingListFragment());
                     break;
                 case R.id.my_posts:
-                    replaceFragment(new MyPostFragment());
+                    replaceFragment(new UserPostListFragment());
                     break;
                 case R.id.profile:
                    replaceFragment(new MyProfileFragment());
@@ -75,7 +73,6 @@ public class UserPageContainerActivity extends AppCompatActivity {
             }
             return true;
         });
-
     }
 
     private void replaceFragment(Fragment fragment){

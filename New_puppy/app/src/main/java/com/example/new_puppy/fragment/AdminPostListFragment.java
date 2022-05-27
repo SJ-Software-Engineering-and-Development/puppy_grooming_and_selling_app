@@ -16,9 +16,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.new_puppy.R;
@@ -30,6 +34,7 @@ import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -48,6 +53,9 @@ import retrofit2.Response;
 public class AdminPostListFragment extends Fragment {
 
     private Chip chip_active, chip_pending, chip_denied, chip_deactive;
+    private TextView labelNoOfItems;
+    private TextInputEditText txtSearch;
+    private Button btnRefreshList;
 
     private SharedPreferences sharedPre;
     private static Dialog appCustomDialog;
@@ -61,6 +69,7 @@ public class AdminPostListFragment extends Fragment {
     private static Context context;
     private static Activity activity;
 
+    private CharSequence search="";
     private String selectedPostStatus;
     private List<Post> postList = new ArrayList<Post>();
 
@@ -96,12 +105,37 @@ public class AdminPostListFragment extends Fragment {
         chip_pending =(Chip) getView().findViewById(R.id.chip_pending);
         chip_denied =(Chip) getView().findViewById(R.id.chip_denied);
         chip_deactive =(Chip) getView().findViewById(R.id.chip_deactive);
+        labelNoOfItems =(TextView) getView().findViewById(R.id.labelNoOfItems);
+        txtSearch = (TextInputEditText) getView().findViewById(R.id.txtSearch);
+        btnRefreshList = (Button) getView().findViewById(R.id.btnRefreshList);
 
         postsRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
 
         chip_active.setChipBackgroundColorResource(R.color.darkYellow);
         chip_active.setTextColor(Color.parseColor("#FFFFFF"));
         selectedPostStatus = PostStatus.active.toString();
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                adminPostRecyclerviewAdapter.getFilter().filter(charSequence);
+                search = charSequence;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        btnRefreshList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPosts();
+            }
+        });
 
         initChipsOnClicks();
         getPosts();
@@ -218,6 +252,7 @@ public class AdminPostListFragment extends Fragment {
                             setPostRecycler();
                             Toast.makeText(context, "No "+selectedPostStatus+" posts to show", Toast.LENGTH_LONG).show();
                         }
+                        labelNoOfItems.setText(postList.size()+" posts");
                     } else {
                         System.out.println("_==================Returned empty response");
                     }

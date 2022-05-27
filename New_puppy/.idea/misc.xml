@@ -20,19 +20,36 @@
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/New_puppy/app/src/main/res/menu/admin_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/New_puppy/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/New_puppy/app/src/main/res/menu/user_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.3828125" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout-v14/dialog_layout_add_post.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/activity_bath_house_booking.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/activity_bright_kennel.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/activity_sign_up.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/activity_splash.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/admin_post_recycler_item.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/book_slot_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/dialog_layout_add_veterinary.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/dialog_layout_submit_book.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_admin_booking_list.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_admin_home.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_admin_post_list.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_booking_slots.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_my_booking.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_my_post.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_my_profile.xml" value="0.36102564102564105" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_post_listing.xml" value="0.264" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_user_booking_list.xml" value="0.35260416666666666" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_user_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_user_post_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_user_veterinary_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_users_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_veterinary.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_view_post.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_view_user.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/fragment_view_vaterinary.xml" value="0.36666666666666664" />
         <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/post_recyclerview_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/1 - SJ SW Engineering/Projects/Puppy Saloon App - Shanuka/puppy_grooming_and_selling_app/New_puppy/app/src/main/res/layout/veterinary_recyclerview_item.xml" value="0.36666666666666664" />
         <entry key="..\:/mobile apploication project/New_puppy/app/src/main/res/layout-v14/activity_about.xml" value="0.24166666666666667" />
         <entry key="..\:/mobile apploication project/New_puppy/app/src/main/res/layout/about.xml" value="0.264" />
         <entry key="..\:/mobile apploication project/New_puppy/app/src/main/res/layout/activity_about.xml" value="0.24166666666666667" />

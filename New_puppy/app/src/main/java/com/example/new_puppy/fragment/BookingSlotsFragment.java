@@ -149,11 +149,6 @@ public class BookingSlotsFragment extends Fragment implements AdapterView.OnItem
         getAllBookingSlots();
 
         initSubmitBookDialog();
-        //        ArrayList<BookingSlot> bookingSlotArrayList = new ArrayList<BookingSlot>();
-    //        bookingSlotArrayList.add(new BookingSlot(1, "", "", "", true));
-    //
-    //        BookSlotGVAdapter adapter = new BookSlotGVAdapter(context, bookingSlotArrayList);
-    //        bookSLotGV.setAdapter(adapter);
     }
 
     public static void slotOnclick(int slotId, boolean isAvailable, String slotText){
@@ -240,7 +235,6 @@ public class BookingSlotsFragment extends Fragment implements AdapterView.OnItem
                         }
                         //Todo display posts
                         if(bookingSlotsList.size() > 0){
-
                             noListingsItemsLabel.setText("Booking slots on " + dateSelected);
                         }else{
                             noListingsItemsLabel.setText("No Booking slots to show for " + dateSelected);

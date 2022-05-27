@@ -37,6 +37,10 @@ public interface ApiInterface {
     Call<String> getPosts(@Field("status") String status);
 
     @FormUrlEncoded
+    @POST("post/getPostsByUserId.php")
+    Call<String> getPostsByUserId(@Field("status") String status, @Field("user_id") String user_id);
+
+    @FormUrlEncoded
     @POST("post/getPostById.php")
     Call<String> getPostById(@Field("id") String id);
 
@@ -50,6 +54,10 @@ public interface ApiInterface {
 
 
     //TODO :   USER ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    @GET("user/getAllUsers.php")
+    Call<String> getUsers();
+
     @FormUrlEncoded
     @POST("user/getUser.php")
     Call<String> getUserById(@Field("id") String id);
@@ -68,8 +76,45 @@ public interface ApiInterface {
     Call<String> getBookedSlots(@Field("date") String date);
 
     @FormUrlEncoded
+    @POST("booking/getBookingByDate.php")
+    Call<String> getBookedSlotsByDate(@Field("date") String date);
+
+    @FormUrlEncoded
+    @POST("booking/getBookingByUserid.php")
+    Call<String> getBookedSlotsByUserId(@Field("date") String date, @Field("user_id") String user_id);
+
+    @FormUrlEncoded
     @POST("booking/bookSlot.php")
-    Call<String> bookSlot(@Field("package_type") String package_type, @Field("date") String date, @Field("user_id") String user_id, @Field("booking_slot_id") String booking_slot_id);
+    Call<String> bookSlot(@Field("package_type") String package_type,
+                          @Field("date") String date,
+                          @Field("user_id") String user_id,
+                          @Field("booking_slot_id") String booking_slot_id);
+
+    //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    //TODO :   Verianry :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    @GET("veterinary/getVeterinaries.php")
+    Call<String> getVeterinaries();
+
+    @FormUrlEncoded
+    @POST("veterinary/getVeterinaryById.php")
+    Call<String> getVeterinaryById(@Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("veterinary/getVeterinaryByCity.php")
+    Call<String> getVeterinaryByCity(@Field("city") String city);
+
+
+    @FormUrlEncoded
+    @POST("veterinary/addVeterinary.php")
+    Call<String> addVeterinary(@Field("title") String title,
+                     @Field("city") String city,
+                     @Field("address") String address,
+                     @Field("contact") String contact,
+                     @Field("open_close_times") String open_close_times,
+                     @Field("longitude") String longitude,
+                     @Field("latitude") String latitude);
 
     //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }

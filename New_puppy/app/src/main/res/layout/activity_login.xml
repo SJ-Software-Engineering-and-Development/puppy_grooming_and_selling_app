@@ -100,11 +100,4 @@
         android:text="New User? SIGN UP"
         android:textColor="#000" />
 
-    <Button
-        android:id="@+id/buttoneka"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-
 </LinearLayout>

@@ -94,7 +94,7 @@ public class PostListingFragment extends Fragment {
     private LinearLayout cardLayout;
     private SwipeRefreshLayout swipeContainer;
     private TextView noListingsItemsLabel;
-    private Chip chip_add_cource, chip_booking;
+    private Chip chip_add_cource, chip_booking, chip_veterinary;
 
     private SharedPreferences sharedPre;
     private static Dialog appCustomDialog;
@@ -163,12 +163,11 @@ public class PostListingFragment extends Fragment {
         btnFullViewClose = (Button) getView().findViewById(R.id.btnFullViewClose);
 
        //  addOnScrollListenerPostRecycler();
-
-        swipeContainer = (SwipeRefreshLayout) getView().findViewById(R.id.swipeContainer);
         noListingsItemsLabel = (TextView) getView().findViewById(R.id.noListingsItemsLabel);
 
         chip_add_cource = (Chip) getView().findViewById(R.id.chip_add_cource);
         chip_booking = (Chip) getView().findViewById(R.id.chip_booking);
+        chip_veterinary = (Chip) getView().findViewById(R.id.chip_veterinary);
         bg_btn_add = (HorizontalScrollView) getView().findViewById(R.id.bg_btn_add);
 
         //Todo: Image slider : Docs https://github.com/denzcoskun/ImageSlideshow
@@ -223,6 +222,13 @@ public class PostListingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(new BookingSlotsFragment());
+            }
+        });
+
+        chip_veterinary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new UserVeterinaryListFragment());
             }
         });
 

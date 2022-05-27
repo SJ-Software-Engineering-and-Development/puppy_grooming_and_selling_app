@@ -17,6 +17,7 @@ import com.example.new_puppy.fragment.AdminPostListFragment;
 import com.example.new_puppy.fragment.MyProfileFragment;
 import com.example.new_puppy.fragment.PostListingFragment;
 import com.example.new_puppy.fragment.UserHomeFragment;
+import com.example.new_puppy.fragment.UsersListFragment;
 import com.example.new_puppy.utils.Navigation;
 
 public class AdminageContainerActivity extends AppCompatActivity {
@@ -87,6 +88,9 @@ public class AdminageContainerActivity extends AppCompatActivity {
                 break;
             case "GOTO_PostListingFragment":
                   replaceFragment(new PostListingFragment());
+                break;
+                case "ViewUserFragment":
+                  replaceFragment(new UsersListFragment());
                 break;
             case "AdminHomeFragment":
                 // super.onBackPressed();

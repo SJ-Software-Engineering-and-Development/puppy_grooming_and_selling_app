@@ -30,37 +30,12 @@ public class SignUp extends AppCompatActivity {
     private Context context ;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         context = this;
-
         editTextTextFullName = findViewById(R.id.editTextTextFullName);
         editTextTextNICNo = findViewById(R.id.editTextTextNICNo);
         editTextTextCity = findViewById(R.id.editTextTextCity);
@@ -74,14 +49,6 @@ public class SignUp extends AppCompatActivity {
         LoginText = findViewById(R.id.LoginText);
         singUpbutton = findViewById(R.id.singUpbutton);
 
-
-
-
-
-
-
-
-
         LoginText.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -91,26 +58,9 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         singUpbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
                 String fullname,idno,city,usertype,email,contactno,password,reenterpassword;
 
                 fullname = String.valueOf(editTextTextFullName.getText());
@@ -122,8 +72,6 @@ public class SignUp extends AppCompatActivity {
                 password = String.valueOf(editTextTextPassword.getText());
                 reenterpassword = String.valueOf(editTextTextReEnterPassword.getText());
 
-
-
                 if (!fullname.equals("")
                         && !idno.equals("")
                         && !city.equals("")
@@ -133,7 +81,6 @@ public class SignUp extends AppCompatActivity {
                         && !password.equals("")
                        )
                 {
-
                     //Start ProgressBar first (Set visibility VISIBLE)
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
@@ -202,17 +149,8 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"ABC __All Fields are required", Toast.LENGTH_SHORT).show();
 
                 }
-
-
-
-
-
-
-
     }
         });
-
-
 
         editTextContactNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -235,7 +173,6 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
-
 
 //        editTextTextEmail.addTextChangedListener(new TextWatcher() {
 //            @Override

@@ -89,3 +89,15 @@ CREATE TABLE `bath_house_booking` (
   FOREIGN KEY (`user_id`) REFERENCES `login_user_register` (`id`),
   FOREIGN KEY (`booking_slot_id`) REFERENCES `booking_slots` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `veterinary` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `contact` varchar(20) DEFAULT NULL,
+  `open_close_times` varchar(50) DEFAULT NULL,
+  `longitude` varchar(200) DEFAULT NULL,
+  `latitude` varchar(200) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

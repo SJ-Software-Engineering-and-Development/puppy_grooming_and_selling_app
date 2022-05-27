@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".activity.SignUp">
 
-
     <TextView
         android:id="@+id/SingUp"
         android:layout_width="154dp"
@@ -38,7 +37,6 @@
         android:layout_marginLeft="08dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
-
         android:ems="10"
         android:hint="Nic_No"
         android:inputType="textPersonName"
@@ -51,7 +49,6 @@
         android:layout_marginLeft="08dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
-
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -64,7 +61,6 @@
         android:layout_marginLeft="08dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
-
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -76,9 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="08dp"
         android:layout_marginTop="0dp"
-
         android:layout_marginRight="10dp"
-
         android:ems="10"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
@@ -90,9 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="08dp"
         android:layout_marginTop="0dp"
-
         android:layout_marginRight="10dp"
-
         android:ems="10"
         android:inputType="number"
         android:minHeight="48dp"
