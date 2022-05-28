@@ -16,6 +16,7 @@ import com.example.new_puppy.fragment.PostListingFragment;
 import com.example.new_puppy.fragment.UserBookingListFragment;
 import com.example.new_puppy.fragment.UserHomeFragment;
 import com.example.new_puppy.fragment.UserPostListFragment;
+import com.example.new_puppy.fragment.UserVeterinaryListFragment;
 import com.example.new_puppy.fragment.UsersListFragment;
 import com.example.new_puppy.utils.Navigation;
 
@@ -97,6 +98,9 @@ public class UserPageContainerActivity extends AppCompatActivity {
                 break;
             case "GOTO_UserPostListFragment":
                 replaceFragment(new UsersListFragment());
+                break;
+            case "GOTO_UserVeterinaryListFragment":
+                replaceFragment(new UserVeterinaryListFragment());
                 break;
             case "UserHomeFragment":
                 // super.onBackPressed();

@@ -33,6 +33,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -110,9 +112,11 @@ public class PostListingFragment extends Fragment {
 
     private HorizontalScrollView bg_btn_add;
     private Button btnFullView, btnFullViewClose;
+    private TextInputEditText txtSearch;
 
     private static RecyclerView courceRecycler;
     private static PostRecyclerviewAdapter postRecyclerviewAdapter;
+    public ActivityResultLauncher<Intent> activityResultLaunch;
 
     static String apiBaseUrl = "";
     private static Context context;
@@ -128,16 +132,13 @@ public class PostListingFragment extends Fragment {
     private ArrayList<SearchModel> breedNameList = new ArrayList<SearchModel>();
     private ArrayList<Integer> breedIDList = new ArrayList<Integer>();
 
+    private CharSequence search="";
     private String selectedGender = "";
     private String selectedLocation = "";
     private String selectedBreedName = "";
     private int selectedBreedId = 0;
     private int this_user_login_id = 0;
-
     CharSequence[] options = {"Camera", "Gallery", "Cancel"};
-    public ActivityResultLauncher<Intent> activityResultLaunch;
-
-
 
     public PostListingFragment() {
         // Required empty public constructor
@@ -177,6 +178,7 @@ public class PostListingFragment extends Fragment {
 
         btnFullView = (Button) getView().findViewById(R.id.btnFullView);
         btnFullViewClose = (Button) getView().findViewById(R.id.btnFullViewClose);
+        txtSearch = (TextInputEditText) getView().findViewById(R.id.txtSearch);
 
        //  addOnScrollListenerPostRecycler();
         noListingsItemsLabel = (TextView) getView().findViewById(R.id.noListingsItemsLabel);
@@ -245,6 +247,20 @@ public class PostListingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 replaceFragment(new UserVeterinaryListFragment());
+            }
+        });
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                postRecyclerviewAdapter.getFilter().filter(charSequence);
+                search = charSequence;
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 

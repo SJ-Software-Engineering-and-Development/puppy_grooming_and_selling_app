@@ -1,5 +1,7 @@
 package com.example.new_puppy.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.appcompat.widget.AbsActionBarView;
 
@@ -19,6 +21,7 @@ import com.example.new_puppy.R;
 import com.example.new_puppy.model.User;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.RetrofitClient;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
@@ -240,6 +243,7 @@ public class Login extends AppCompatActivity {
                 } else { //Response code : 400 response.code()
                     progressDialog.dismiss();
                     try {
+                        showDialog(context, "Opps...!", "Check your connection", ()->{});
                         String error = response.errorBody().string();
                         System.out.println("_==================Error: "+error);
                     } catch (IOException e) {
@@ -250,9 +254,32 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                showDialog(context, "Opps...!", "Check your connection", ()->{});
                 progressDialog.dismiss();
                 System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
             }
         });
+    }
+
+    public static  void showDialog(
+            @NonNull final Context context,
+            String title,
+            String message,
+            @Nullable Runnable confirmCallback
+    ) {
+        //TODO: Add TextInput Programatically...
+        //  E.g. TextInputEditText myInput = new TextInputEditText(getContext());
+        //  MaterialAlertDialogBuilder(context).addView(myInput)  <- Possible
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton("Ok",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (confirmCallback != null) confirmCallback.run();
+                        })
+                .show();
     }
 }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.new_puppy.R;
+import com.example.new_puppy.fragment.UserVeterinaryListFragment;
 import com.example.new_puppy.fragment.UsersListFragment;
 import com.example.new_puppy.fragment.VeterinaryFragment;
 import com.example.new_puppy.model.Veterinary;
@@ -58,7 +59,7 @@ public class VeterinaryRVAdapter2 extends RecyclerView.Adapter<VeterinaryRVAdapt
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VeterinaryFragment.listItemOnClick(filteredDataList.get(position).getId());
+                UserVeterinaryListFragment.listItemOnClick(filteredDataList.get(position).getId());
             }
         });
     }

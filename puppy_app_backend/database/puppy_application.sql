@@ -28,28 +28,38 @@ SET time_zone = "+00:00";
 --
 
 
-CREATE TABLE `login_user_register` (
+--
+-- Table structure for table `login_user_register`
+--
+
+DROP TABLE IF EXISTS `login_user_register`;
+CREATE TABLE IF NOT EXISTS `login_user_register` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Full Name` varchar(100) DEFAULT NULL,
   `Nic Number` varchar(30) NOT NULL,
   `City` varchar(50) DEFAULT NULL,
-  `User Type` varchar(20) DEFAULT NULL,
+  `User Type` enum('user','admin') NOT NULL,
   `E-mail` varchar(100) NOT NULL,
   `Contact No` int(10) DEFAULT NULL,
   `Password` varchar(10) DEFAULT NULL,
-   UNIQUE KEY `Nic Number` (`Nic Number`),
-   UNIQUE KEY `E-mail` (`E-mail`),
-   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Nic Number` (`Nic Number`),
+  UNIQUE KEY `E-mail` (`E-mail`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `login_user_register`
 --
 
-INSERT INTO `login_user_register` (`Full Name`, `Nic Number`, `City`, `User Type`, `E-mail`, `Contact No`, `Password`) VALUES
-('asdjnhj', '444', 'sdfr', 'fythj', 'fyguh', 888, 'ggg'),
-('shanuka', '973240315', 'panadura', 'seller', 'shanuka_h@gmail.com', 760776981, '123a');
+INSERT INTO `login_user_register` (`id`, `Full Name`, `Nic Number`, `City`, `User Type`, `E-mail`, `Contact No`, `Password`) VALUES
+(1, 'Supun kumara', '444', 'sdfr', 'admin', 'supun@gmail.com', 760776981, 'ggg'),
+(2, 'shanuka', '555', 'panadura', 'user', 'shanuka_h@gmail.com', 760776981, 'aaa');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `post`
+--
 --
 -- Indexes for dumped tables
 --

@@ -113,12 +113,10 @@ public class UsersListFragment extends Fragment {
                 usersRVAdapter.getFilter().filter(charSequence);
                 search = charSequence;
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-
 
         getUsers();
     }

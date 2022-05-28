@@ -21,6 +21,7 @@ import com.example.new_puppy.activity.AppSharedPreferences;
 import com.example.new_puppy.model.User;
 import com.example.new_puppy.model.Veterinary;
 import com.example.new_puppy.utils.ApiInterface;
+import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.example.new_puppy.utils.UserStorage;
 import com.google.gson.Gson;
@@ -54,6 +55,12 @@ public class ViewVaterinaryFragment extends Fragment {
 
     public ViewVaterinaryFragment(int id) {
         this.vet_id = id;
+
+        if(Navigation.currentScreen.equals("VeterinaryFragment")){
+            Navigation.currentScreen = "GOTO_VeterinaryFragment";
+        }else if(Navigation.currentScreen.equals("UserVeterinaryListFragment")){
+            Navigation.currentScreen = "GOTO_UserVeterinaryListFragment";
+        }
     }
 
     @Override

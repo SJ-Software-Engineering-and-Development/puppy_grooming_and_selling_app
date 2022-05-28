@@ -97,7 +97,7 @@ public class PostRecyclerviewAdapter extends RecyclerView.Adapter<PostRecyclervi
 
                     List<Post> lstFiltered = new ArrayList<>();
                     for (Post row : dataList) {
-                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getAge().toLowerCase().contains(Key.toLowerCase()) ) {
+                        if (row.getLocation().toLowerCase().contains(Key.toLowerCase()) || row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getAge().toLowerCase().contains(Key.toLowerCase()) ) {
                             lstFiltered.add(row);
                         }
                     }

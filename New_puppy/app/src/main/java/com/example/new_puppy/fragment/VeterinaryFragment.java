@@ -39,6 +39,7 @@ import com.example.new_puppy.adapter.VeterinaryRVAdapter;
 import com.example.new_puppy.model.SearchModel;
 import com.example.new_puppy.model.Veterinary;
 import com.example.new_puppy.utils.ApiInterface;
+import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -94,6 +95,7 @@ public class VeterinaryFragment extends Fragment {
 
     public VeterinaryFragment() {
         // Required empty public constructor
+        Navigation.currentScreen= "VeterinaryFragment";
     }
 
     @Override

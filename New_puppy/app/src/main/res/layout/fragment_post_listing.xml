@@ -6,24 +6,29 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".fragment.PostListingFragment">
 
-    <EditText
-        android:id="@+id/search_bar"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/search_bg"
-        android:drawableStart="@drawable/ic_baseline_search_24"
-        android:ems="10"
         android:hint="Search..."
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:padding="10dp"
-        android:paddingStart="18dp"
+        app:hintTextColor="@color/colorAppPrimary"
+        app:boxStrokeColor="@color/colorAppPrimary"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginHorizontal="10dp"
+        app:startIconDrawable="@drawable/ic_baseline_search_24"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="7dp"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
            android:layout_width="match_parent"
@@ -78,6 +83,7 @@ tools:context=".fragment.PostListingFragment">
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="5dp"
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                    android:visibility="invisible"
                     />
             </LinearLayout>
 

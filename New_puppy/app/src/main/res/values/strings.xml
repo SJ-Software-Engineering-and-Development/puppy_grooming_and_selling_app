@@ -2,7 +2,7 @@
 
     <string name="app_name">New_puppy</string>
     <string name="app_shared_pre">puppy_app</string>
-    <string name="apiBaseUrl">http://192.168.1.100/puppy_app_backend/</string>
+    <string name="apiBaseUrl">http://192.168.1.101/puppy_app_backend/</string>
     <string-array name="SpinnerMenu">
         <item>Home</item>
         <item>Education</item>

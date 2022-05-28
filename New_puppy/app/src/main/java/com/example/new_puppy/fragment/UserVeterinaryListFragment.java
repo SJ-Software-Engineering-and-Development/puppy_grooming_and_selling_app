@@ -29,6 +29,7 @@ import com.example.new_puppy.adapter.VeterinaryRVAdapter2;
 import com.example.new_puppy.model.SearchModel;
 import com.example.new_puppy.model.Veterinary;
 import com.example.new_puppy.utils.ApiInterface;
+import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -76,6 +77,7 @@ public class UserVeterinaryListFragment extends Fragment {
 
     public UserVeterinaryListFragment() {
         // Required empty public constructor
+        Navigation.currentScreen= "UserVeterinaryListFragment";
     }
 
     @Override
@@ -252,6 +254,13 @@ public class UserVeterinaryListFragment extends Fragment {
                 System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
             }
         });
+    }
+
+
+
+    public static void listItemOnClick(int id){
+        Fragment fragment = new ViewVaterinaryFragment(id);
+        replaceFragment(fragment);
     }
 
     private void  setRecycler(){
