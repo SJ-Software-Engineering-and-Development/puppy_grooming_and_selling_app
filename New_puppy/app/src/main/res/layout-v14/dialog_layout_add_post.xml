@@ -153,31 +153,35 @@
                             tools:ignore="TouchTargetSizeCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="7dp"
-                        android:hint="Location"
-                        app:boxStrokeColor="@color/colorAppPrimary"
-                        app:hintTextColor="@color/colorAppPrimary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txt_location"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:inputType="text"
-                            tools:ignore="TouchTargetSizeCheck" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_add_image"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chip_group_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Image"
-                        app:chipIcon="@drawable/ic_baseline_image_24" />
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:singleSelection="false">
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select location"
+                            app:chipIcon="@drawable/ic_baseline_location_on_24" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_breed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select breed"
+                            app:chipIcon="@drawable/ic_baseline_data_saver_off_24" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_add_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select Image"
+                            app:chipIcon="@drawable/ic_baseline_image_24" />
+                    </com.google.android.material.chip.ChipGroup>
 
                     <LinearLayout
                         android:layout_width="match_parent"

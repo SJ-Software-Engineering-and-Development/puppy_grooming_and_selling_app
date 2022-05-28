@@ -12,7 +12,9 @@ if (
     isset($_POST['date']) &&
     isset($_POST['location']) &&
     isset($_POST['imageName']) &&
+    isset($_POST['encodedImage']) &&
     isset($_POST['status']) &&
+    isset($_POST['breed_id']) &&
     isset($_POST['owner_id'])
 ) {
     if ($db->dbConnect()) {
@@ -26,15 +28,16 @@ if (
             $_POST['imageName'],
             $_POST['encodedImage'],
             $_POST['status'],
+            $_POST['breed_id'],
             $_POST['owner_id'])) {
 
             $response['success'] = 1;
-            $response['message'] = "Image Uploaded Successfully with Retrofit";
+            $response['message'] = "Post submited successfully";
             echo json_encode($response);
             //  echo "Error: Database connection";
         } else {
             $response['success'] = 0;
-            $response['message'] = "Image Uploaded Failed";
+            $response['message'] = "Post submition Failed";
             echo json_encode($response);
             //  echo "Error: Database connection";
         }

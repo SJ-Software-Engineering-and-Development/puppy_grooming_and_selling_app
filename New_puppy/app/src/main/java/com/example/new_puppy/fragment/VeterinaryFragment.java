@@ -24,6 +24,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,8 @@ public class VeterinaryFragment extends Fragment {
     private static VeterinaryRVAdapter veterinaryRVAdapter;
 
     private Button btnAdd, btnGotoMapVeterianry, btnRefreshList;
+    private TextInputEditText txtSearch;
+
 
     private ProgressDialog progressDialog;
     private static Dialog appCustomDialog;
@@ -84,6 +88,8 @@ public class VeterinaryFragment extends Fragment {
     private TextView labelNoOfItems;
 
     private static List<Veterinary> veterinaryList = new ArrayList<Veterinary>();
+
+    private CharSequence search="";
     private String selectedCity = "";
 
     public VeterinaryFragment() {
@@ -117,6 +123,7 @@ public class VeterinaryFragment extends Fragment {
         btnGotoMapVeterianry = (Button) getView().findViewById(R.id.btnGotoMapVeterianry);
         btnRefreshList = (Button) getView().findViewById(R.id.btnRefreshList);
         labelNoOfItems = (TextView) getView().findViewById(R.id.labelNoOfItems);
+        txtSearch = (TextInputEditText) getView().findViewById(R.id.txtSearch);
 
         veterinaryRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
 
@@ -138,6 +145,21 @@ public class VeterinaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getVeterianries();
+            }
+        });
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                veterinaryRVAdapter.getFilter().filter(charSequence);
+                search = charSequence;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 

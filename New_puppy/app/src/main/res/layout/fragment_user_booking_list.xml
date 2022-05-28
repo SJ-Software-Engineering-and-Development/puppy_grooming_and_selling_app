@@ -109,7 +109,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/noListingsItemsLabel"
+            android:id="@+id/labelBookDate"
             android:layout_marginHorizontal="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,6 +119,19 @@
             android:textSize="17sp"
             android:layout_marginVertical="10dp"
             android:layout_gravity="center"
+            />
+        <TextView
+            android:id="@+id/noListingsItemsLabel"
+            android:layout_marginHorizontal="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionName="logo_text"
+            android:text="No Booking to show"
+            android:textColor="@color/colorGray"
+            android:textSize="17sp"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/userRecycler"

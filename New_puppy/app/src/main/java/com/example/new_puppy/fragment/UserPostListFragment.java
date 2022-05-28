@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.new_puppy.R;
 import com.example.new_puppy.activity.AppSharedPreferences;
 import com.example.new_puppy.adapter.AdminPostRecyclerviewAdapter;
+import com.example.new_puppy.adapter.UserPostRecyclerviewAdapter;
 import com.example.new_puppy.model.Post;
 import com.example.new_puppy.model.PostStatus;
 import com.example.new_puppy.utils.ApiInterface;
@@ -62,7 +63,7 @@ public class UserPostListFragment extends Fragment {
     private static FragmentManager fragmentManager;
 
     private static RecyclerView postsRecycler;
-    private static AdminPostRecyclerviewAdapter adminPostRecyclerviewAdapter;
+    private static UserPostRecyclerviewAdapter userPostRecyclerviewAdapter;
 
     static String apiBaseUrl = "";
     private static Context context;
@@ -124,7 +125,7 @@ public class UserPostListFragment extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                adminPostRecyclerviewAdapter.getFilter().filter(charSequence);
+                userPostRecyclerviewAdapter.getFilter().filter(charSequence);
                 search = charSequence;
             }
 
@@ -200,12 +201,7 @@ public class UserPostListFragment extends Fragment {
 
     //Todo: Post Onclick
     public static void listItemOnClick(int postId){
-        // TODO: Goto View ViewDisasterFragmentViewDisasterFragment
-        //  FragmentManager fragmentManager =  AddUsersFragment.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, new ViewPostFragment(postId, "AdminPostListFragment"));
-        //  fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        replaceFragment(new ViewPostFragment(postId, "UserPostListFragment"));
     }
 
     private void getPosts(){
@@ -284,7 +280,16 @@ public class UserPostListFragment extends Fragment {
         // vaccineRecycler = getView().findViewById(R.id.vaccineRecycler); TODO : Move to onViewCreated()
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         postsRecycler.setLayoutManager(layoutManager);
-        adminPostRecyclerviewAdapter = new AdminPostRecyclerviewAdapter(context, postList);
-        postsRecycler.setAdapter(adminPostRecyclerviewAdapter);
+        userPostRecyclerviewAdapter = new UserPostRecyclerviewAdapter(context, postList);
+        postsRecycler.setAdapter(userPostRecyclerviewAdapter);
+    }
+
+    private static void replaceFragment(Fragment fragment){
+        //TODO: Goto View ViewDisasterFragmentViewDisasterFragment
+        //  FragmentManager fragmentManager =  AddUsersFragment.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        //  fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

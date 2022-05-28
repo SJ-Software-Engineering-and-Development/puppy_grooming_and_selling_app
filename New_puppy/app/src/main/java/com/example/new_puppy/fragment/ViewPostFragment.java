@@ -70,10 +70,18 @@ public class ViewPostFragment extends Fragment {
 
     public ViewPostFragment(int postId, String cameFrom) {
         this.post_id = postId;
-        if(cameFrom.equals("AdminPostListFragment"))
-            Navigation.currentScreen = "GOTO_AdminPostListFragment";
-        else if(cameFrom.equals("PostListingFragment"))
-            Navigation.currentScreen = "GOTO_PostListingFragment";
+
+        switch (cameFrom){
+            case "AdminPostListFragment":
+                Navigation.currentScreen = "GOTO_AdminPostListFragment";
+                break;
+            case "PostListingFragment":
+                Navigation.currentScreen = "GOTO_PostListingFragment";
+                break;
+            case "UserPostListFragment":
+                Navigation.currentScreen = "GOTO_UserPostListFragment";
+                break;
+        }
     }
 
     @Override
@@ -154,13 +162,16 @@ public class ViewPostFragment extends Fragment {
 
                 if (response.isSuccessful()) { //Response code : 200
                     if (response.body() != null) {
-                        System.out.println("_==================onSuccessimg");
-                        System.out.println(response.body().toString());
+                      //  System.out.println("_==================onSuccessimg");
+                      //  System.out.println(response.body().toString());
                         try {
                             //  JSONArray jsonArray = new JSONArray(response.body().toString());
                             JSONObject jsnobject = new JSONObject(response.body().toString());
                             if(jsnobject.getString("success").equals("1")){
                                 Post post = new Gson().fromJson(jsnobject.getString("data"), Post.class);
+                                post.setImageUrl(apiBaseUrl+"post/uploadedFiles/"+post.getImageUrl());
+                               // System.out.println("_==================POST IMG URL " + post.getImageUrl());
+
                                 updateView(post);
                                 getPostOwner(post.getOwner_id());
                             }
@@ -280,6 +291,7 @@ public class ViewPostFragment extends Fragment {
             }
         }
 
+        setImagestoSliderPost(post);
     }
 
     private void updateView(User user){
@@ -287,6 +299,16 @@ public class ViewPostFragment extends Fragment {
         txtSellerEmail.setText(user.getEmail());
         txtSellerContact.setText(user.getContactNo());
     }
+
+    private void setImagestoSliderPost(Post post){
+        List<SlideModel> slideModels= new ArrayList<>();
+        //TODO: Can add more than one images as bellow
+       // slideModels.add(new SlideModel("https://github.com/SJ-Software-Engineering-and-Development/puppy_grooming_and_selling_app/blob/main/public/FB_IMG_1653101972979.jpg?raw=true"));
+        slideModels.add(new SlideModel(post.getImageUrl()));
+
+        sliderPostImages.setImageList(slideModels, true);
+    }
+
 
     private void initChipsOnClicks(){
         chip_publish.setOnClickListener(new View.OnClickListener() {

@@ -30,6 +30,7 @@ public interface ApiInterface {
                                   @Field("imageName") String image,
                                   @Field("encodedImage") String encodedImage,
                                   @Field("status") String status,
+                                  @Field("breed_id") String breed_id,
                                   @Field("owner_id") String owner_id);
 
     @FormUrlEncoded
@@ -117,4 +118,32 @@ public interface ApiInterface {
                      @Field("latitude") String latitude);
 
     //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+    //TODO :   breed :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    @GET("breed/getBreeds.php")
+    Call<String> getBreeds();
+
+    @GET("breed/getMostDemandBreed.php")
+    Call<String> getMostDemandBreed();
+
+    //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+    //TODO :   Youtube videos ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    @GET("youtube_video/getVideos.php")
+    Call<String> getVideos();
+
+    @FormUrlEncoded
+    @POST("youtube_video/addVideo.php")
+    Call<String> addVideo(@Field("url") String url);
+
+    @GET("youtube_video/getMaxStatus.php")
+    Call<String> getMaxStatus();
+
+    //TODO :  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 }

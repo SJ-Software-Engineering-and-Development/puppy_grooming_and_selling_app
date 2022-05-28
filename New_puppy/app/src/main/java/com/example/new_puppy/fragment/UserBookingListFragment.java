@@ -30,6 +30,7 @@ import com.example.new_puppy.model.BookedSlot;
 import com.example.new_puppy.model.BookedSlotCustom;
 import com.example.new_puppy.model.BookingSlot;
 import com.example.new_puppy.utils.ApiInterface;
+import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
 
 import org.json.JSONArray;
@@ -55,7 +56,7 @@ public class UserBookingListFragment extends Fragment {
     private static ProgressDialog progressDialog;
     private SharedPreferences sharedPre;
 
-    private TextView noListingsItemsLabel, txtDate;
+    private TextView noListingsItemsLabel, labelBookDate, txtDate;
     private Button btnGoBack, btnGoForward;
 
     private static ArrayList<BookedSlot> bookedSlotsList = new ArrayList<BookedSlot>();
@@ -74,6 +75,7 @@ public class UserBookingListFragment extends Fragment {
 
     public UserBookingListFragment() {
         // Required empty public constructor
+        Navigation.currentScreen = "UserBookingListFragment";
     }
 
     @Override
@@ -106,6 +108,7 @@ public class UserBookingListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         noListingsItemsLabel =(TextView) getView().findViewById(R.id.noListingsItemsLabel);
+        labelBookDate =(TextView) getView().findViewById(R.id.labelBookDate);
         txtDate =(TextView) getView().findViewById(R.id.txtDate);
         postsRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
 
@@ -114,7 +117,7 @@ public class UserBookingListFragment extends Fragment {
         btnGoBack = ( Button) getView().findViewById(R.id.btnGoBack);
         btnGoForward = (Button) getView().findViewById(R.id.btnGoForward);
 
-        noListingsItemsLabel.setText("Booking slots on " + dateSelected);
+        labelBookDate.setText("Booking slots on " + dateSelected);
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Please wait...");
@@ -132,9 +135,9 @@ public class UserBookingListFragment extends Fragment {
                 txtDate.setText(dateFormat.format(dt));
                 dateSelected = dateFormat.format(dt);
                 if(bookedSlotCustomList.size() > 0){
-                    noListingsItemsLabel.setText("Booking slots on " + dateSelected);
+                    labelBookDate.setText("Booking slots on " + dateSelected);
                 }else{
-                    noListingsItemsLabel.setText("No Booking slots to show for " + dateSelected);
+                    labelBookDate.setText("No Booking slots to show for " + dateSelected);
                 }
                 getMyBookingSlots();
             }
@@ -148,9 +151,9 @@ public class UserBookingListFragment extends Fragment {
                 txtDate.setText(dateFormat.format(dt));
                 dateSelected = dateFormat.format(dt);
                 if(bookedSlotCustomList.size() > 0){
-                    noListingsItemsLabel.setText("Booking slots on " + dateSelected);
+                    labelBookDate.setText("Booking slots on " + dateSelected);
                 }else{
-                    noListingsItemsLabel.setText("No Booking slots to show for " + dateSelected);
+                    labelBookDate.setText("No Booking slots to show for " + dateSelected);
                 }
                 getMyBookingSlots();
             }
@@ -200,10 +203,13 @@ public class UserBookingListFragment extends Fragment {
                         }
                         //Todo
                         if(bookedSlotCustomList.size() > 0){
-                            noListingsItemsLabel.setText("Booking slots on " + dateSelected);
+                            noListingsItemsLabel.setVisibility(View.GONE);
+                            labelBookDate.setText("Booking slots on " + dateSelected);
+                        }else{
+                            noListingsItemsLabel.setVisibility(View.VISIBLE);
                         }
                     } else {
-                        noListingsItemsLabel.setText("No Booking slots to show for " + dateSelected);
+                        labelBookDate.setText("No Booking slots to show for " + dateSelected);
                         Toast.makeText(context, "No slots to show", Toast.LENGTH_LONG).show();
                         System.out.println("_==================Returned empty response");
                     }

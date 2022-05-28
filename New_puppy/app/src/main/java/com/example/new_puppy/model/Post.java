@@ -11,12 +11,13 @@ public class Post {
     private String location;
     private String imageUrl;
     private PostStatus status;
+    private int breed_id;
     private int owner_id;
 
     public Post() {
     }
 
-    public Post(int id, String title, String price, String description, String gender, String age, String date, String location, String imageUrl, PostStatus status, int owner_id) {
+    public Post(int id, String title, String price, String description, String gender, String age, String date, String location, String imageUrl, PostStatus status, int breed_id, int owner_id) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -27,7 +28,16 @@ public class Post {
         this.location = location;
         this.imageUrl = imageUrl;
         this.status = status;
+        this.breed_id = breed_id;
         this.owner_id = owner_id;
+    }
+
+    public int getBreed_id() {
+        return breed_id;
+    }
+
+    public void setBreed_id(int breed_id) {
+        this.breed_id = breed_id;
     }
 
     public int getId() {

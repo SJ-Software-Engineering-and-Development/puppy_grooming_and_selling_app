@@ -13,21 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.new_puppy.R;
-import com.example.new_puppy.fragment.UsersListFragment;
-import com.example.new_puppy.fragment.VeterinaryFragment;
-import com.example.new_puppy.model.Veterinary;
+import com.example.new_puppy.fragment.UserPostListFragment;
+import com.example.new_puppy.model.Post;
 import com.example.new_puppy.utils.ListItemAnimation;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapter.UsersRecyclerviewHolder>{
+public class UserPostRecyclerviewAdapter extends RecyclerView.Adapter<UserPostRecyclerviewAdapter.UsersRecyclerviewHolder>{
     Context context;
-    List<Veterinary> dataList;
-    List<Veterinary> filteredDataList;
+    List<Post> dataList;
+    List<Post> filteredDataList;
 
-    public VeterinaryRVAdapter(Context context, List<Veterinary> userList) {
+    public UserPostRecyclerviewAdapter(Context context, List<Post> userList) {
         this.context = context;
         this.dataList = userList;
         this.filteredDataList = userList;
@@ -35,20 +34,20 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
 
     @NonNull
     @Override
-    public VeterinaryRVAdapter.UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserPostRecyclerviewAdapter.UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.admin_post_recycler_item, parent, false);
-        return new VeterinaryRVAdapter.UsersRecyclerviewHolder(view);
+        return new UserPostRecyclerviewAdapter.UsersRecyclerviewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VeterinaryRVAdapter.UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull UserPostRecyclerviewAdapter.UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.txtTitle.setText(filteredDataList.get(position).getTitle());
-        holder.txtStatus.setText(filteredDataList.get(position).getCity());
-        holder.txtDate.setText(filteredDataList.get(position).getContact());
+        holder.txtStatus.setText(filteredDataList.get(position).getStatus().toString());
+        holder.txtDate.setText(filteredDataList.get(position).getDate());
         // Picasso.get().load(filteredDataList.get(position).getImageUrl()).into(holder.cardimage);
-        holder.cardimage.setImageResource(R.drawable.ic_baseline_local_hospital_24);
+        holder.cardimage.setImageResource(R.drawable.ic_baseline_newspaper_yellow_24);
 
         ListItemAnimation.animateFadeIn(holder.itemView, position);
 
@@ -56,14 +55,14 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VeterinaryFragment.listItemOnClick(filteredDataList.get(position).getId());
+                UserPostListFragment.listItemOnClick(filteredDataList.get(position).getId());
             }
         });
 
         holder.btnActions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VeterinaryFragment.listItemOnClick(filteredDataList.get(position).getId());
+                UserPostListFragment.listItemOnClick(filteredDataList.get(position).getId());
             }
         });
     }
@@ -101,9 +100,9 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
                     filteredDataList = dataList;
                 } else {
 
-                    List<Veterinary> lstFiltered = new ArrayList<>();
-                    for (Veterinary row : dataList) {
-                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getCity().toLowerCase().contains(Key.toLowerCase()) || row.getAddress().toLowerCase().contains(Key.toLowerCase()) ) {
+                    List<Post> lstFiltered = new ArrayList<>();
+                    for (Post row : dataList) {
+                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getAge().toLowerCase().contains(Key.toLowerCase()) ) {
                             lstFiltered.add(row);
                         }
                     }
@@ -118,7 +117,7 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredDataList = (List<Veterinary>) filterResults.values;
+                filteredDataList = (List<Post>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

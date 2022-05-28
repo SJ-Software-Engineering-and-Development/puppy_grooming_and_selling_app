@@ -48,11 +48,14 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.new_puppy.activity.AppSharedPreferences;
 import com.example.new_puppy.activity.UserPageContainerActivity;
+import com.example.new_puppy.model.Breed;
 import com.example.new_puppy.model.PostStatus;
 import com.example.new_puppy.R;
 import com.example.new_puppy.adapter.PostRecyclerviewAdapter;
 import com.example.new_puppy.model.Post;
+import com.example.new_puppy.model.SearchModel;
 import com.example.new_puppy.utils.ApiInterface;
+import com.example.new_puppy.utils.BreedStorage;
 import com.example.new_puppy.utils.FileUtils;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.google.android.material.button.MaterialButton;
@@ -72,11 +75,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
+import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -116,12 +123,21 @@ public class PostListingFragment extends Fragment {
     public String fileDialogSelectedOption = "";
 
     private List<Post> postList = new ArrayList<Post>();
+    private ArrayList<Breed> breedList = new ArrayList<Breed>();
+
+    private ArrayList<SearchModel> breedNameList = new ArrayList<SearchModel>();
+    private ArrayList<Integer> breedIDList = new ArrayList<Integer>();
 
     private String selectedGender = "";
+    private String selectedLocation = "";
+    private String selectedBreedName = "";
+    private int selectedBreedId = 0;
     private int this_user_login_id = 0;
 
     CharSequence[] options = {"Camera", "Gallery", "Cancel"};
     public ActivityResultLauncher<Intent> activityResultLaunch;
+
+
 
     public PostListingFragment() {
         // Required empty public constructor
@@ -142,7 +158,7 @@ public class PostListingFragment extends Fragment {
         fragmentManager = getActivity().getSupportFragmentManager();
 
        // initActivityResultLaunch();
-        initCourceAddDialog();
+        initPostAddDialog();
     }
 
     @Override
@@ -233,6 +249,7 @@ public class PostListingFragment extends Fragment {
         });
 
         getActivePosts();
+        getBreeds();
     }
 
     //Todo: Post Onclick
@@ -310,7 +327,7 @@ public class PostListingFragment extends Fragment {
         });
     }
 
-    private void initCourceAddDialog() {
+    private void initPostAddDialog() {
         // TODO: Custom Dialog Start ::::::::::::::::::::::::::::::::::::::::::
         appCustomDialog = new Dialog(getContext());
         // >> TODO: Add Dialog Layout
@@ -327,10 +344,10 @@ public class PostListingFragment extends Fragment {
         TextInputEditText txt_price = appCustomDialog.findViewById(R.id.txt_price);
         TextInputEditText txt_description = appCustomDialog.findViewById(R.id.txt_description);
         TextInputEditText txt_age = appCustomDialog.findViewById(R.id.txt_age);
-        TextInputEditText txt_location = appCustomDialog.findViewById(R.id.txt_location);
+
         Chip chip_add_image = appCustomDialog.findViewById(R.id.chip_add_image);
-
-
+        Chip chip_location = appCustomDialog.findViewById(R.id.chip_location);
+        Chip chip_breed = appCustomDialog.findViewById(R.id.chip_breed);
         Chip chip_male = appCustomDialog.findViewById(R.id.chip_male);
         Chip chip_female = appCustomDialog.findViewById(R.id.chip_female);
 
@@ -368,6 +385,48 @@ public class PostListingFragment extends Fragment {
             }
         });
 
+        chip_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SimpleSearchDialogCompat(getActivity(), "Search...",
+                        "Search  city name here...?", null, getCityList(),
+                        new SearchResultListener<SearchModel>() {
+                            @Override
+                            public void onSelected(BaseSearchDialogCompat dialog,
+                                                   SearchModel item, int position) {
+
+                                // If filtering is enabled, [position] is the index of the item in the filtered result, not in the unfiltered source
+                                //   Log.d("_location_", item.getTitle().toString() );
+                                chip_location.setText(item.getTitle());
+                                selectedLocation = item.getTitle();
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+
+        chip_breed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SimpleSearchDialogCompat(getActivity(), "Search...",
+                        "Search  breed name here...?", null, getBreedNameList(),
+                        new SearchResultListener<SearchModel>() {
+                            @Override
+                            public void onSelected(BaseSearchDialogCompat dialog,
+                                                   SearchModel item, int position) {
+
+                                // If filtering is enabled, [position] is the index of the item in the filtered result, not in the unfiltered source
+                                //   Log.d("_location_", item.getTitle().toString() );
+                                chip_breed.setText(item.getTitle());
+                                selectedBreedName = item.getTitle();
+                                selectedBreedId = breedIDList.get(position);
+                                // System.out.println("=>>>>>>>>>>>>>>>>>>>>>>>>>>> selectedBreed: "+selectedBreedId+ " " + selectedBreedName);
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+
         btn_dialog_btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -382,7 +441,9 @@ public class PostListingFragment extends Fragment {
                         txt_price.getText().toString().trim().equals("") ||
                         txt_description.getText().toString().trim().equals("") ||
                         txt_age.getText().toString().trim().equals("") ||
-                        txt_location.getText().toString().trim().equals("")
+                        selectedBreedName.equals("") ||
+                        selectedGender.equals("") ||
+                        selectedLocation.equals("")
                 ){
                     showDialog(getActivity(),"Opps..!", "All fields are required.", ()->{});
                 }else{
@@ -400,9 +461,10 @@ public class PostListingFragment extends Fragment {
                             post.setAge(txt_age.getText().toString().trim());
                             String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
                             post.setDate(today);
-                            post.setLocation(txt_location.getText().toString().trim());
+                            post.setLocation(selectedLocation);
                             post.setGender(selectedGender);
                             post.setStatus(PostStatus.pending);
+                            post.setBreed_id(selectedBreedId);
                             post.setOwner_id(this_user_login_id);
                             //Todo: Image has to be upload and will set it on server it selves.
                               post.setImageUrl("");
@@ -413,7 +475,9 @@ public class PostListingFragment extends Fragment {
                             txt_price.setText("");
                             txt_description.setText("");
                             txt_age.setText("");
-                            txt_location.setText("");
+                            selectedLocation="";
+                            selectedBreedId=0;
+                            selectedBreedName="";
                             selectedGender="";
                             selectedImage = "";
                             selectedImageBitmap = null;
@@ -425,7 +489,9 @@ public class PostListingFragment extends Fragment {
                             txt_description.setText("");
                             txt_age.setText("");
                             selectedGender="";
-                            txt_location.setText("");
+                            selectedLocation="";
+                            selectedBreedId=0;
+                            selectedBreedName="";
                             selectedImage = "";
                             selectedImageBitmap = null;
                         });
@@ -439,7 +505,7 @@ public class PostListingFragment extends Fragment {
         initActivityResultLaunch();
     }
 
-   //Todo: Choosen image result
+    //Todo: Choosen image result
     private void initActivityResultLaunch(){
         activityResultLaunch = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -484,44 +550,78 @@ public class PostListingFragment extends Fragment {
                 });
     }
 
+
+    private ArrayList<SearchModel> getCityList(){
+        List<String> listCity = Arrays.asList(getResources().getStringArray(R.array.city_list));
+        ArrayList<SearchModel> items = new ArrayList<>();
+        for(String city: listCity){
+            items.add(new SearchModel(city));
+        }
+        return items;
+    }
+
+    private ArrayList<SearchModel> getBreedNameList(){
+        if(BreedStorage.breeds !=null){
+            if(BreedStorage.breeds.size()!=0)this.breedList = BreedStorage.breeds;
+            else getBreeds();
+        }else{
+            getBreeds();
+        }
+
+        ArrayList<SearchModel> items = new ArrayList<>();
+        for(Breed breed: breedList){
+           breedIDList.add(breed.getId());
+           breedNameList.add(new SearchModel(breed.getBreed()));
+           items.add(new SearchModel(breed.getBreed()));
+        }
+        return items;
+    }
+
     // Todo: ref https://demonuts.com/android-upload-image-to-server-using-retrofit/
     private void savePost(Post post){
-       // appProgressDialog.show();
+        progressDialog.setTitle("Saving...");
+        progressDialog.show();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
         String imgname = String.valueOf(Calendar.getInstance().getTimeInMillis());
 
-        String title =  post.getTitle();
-        String price =  post.getPrice();
-        String description =  post.getDescription();
-        String gender = post.getGender();
-        String age =  post.getAge();
-        String date = post.getDate();
-        String location = post.getLocation();
-        String status =post.getStatus().toString();
-        String owner_id = String.valueOf(post.getOwner_id());
-
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
 
-        Call<String> call = apiInterface.submitPost(title, price, description, gender, age, date,location, imgname, encodedImage, status, owner_id);
-
-        progressDialog.setTitle("Saving...");
-        progressDialog.show();
+        Call<String> call = apiInterface
+                .submitPost(post.getTitle(),
+                        post.getPrice(),
+                        post.getDescription(),
+                        post.getGender(),
+                        post.getAge(),
+                        post.getDate(),
+                        post.getLocation(),
+                        imgname,
+                        encodedImage,
+                        post.getStatus().toString(),
+                        String.valueOf(post.getBreed_id()),
+                        String.valueOf(post.getOwner_id()));
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
                 if (response.isSuccessful()) { //Response code : 200
-                    showDialog(context, "Done..!", "Post submited", () -> {
-                    });
                     if (response.body() != null) {
-                        Log.i("onSuccessimg", response.body().toString());
-
-                        System.out.println("_==================onSuccessimg");
-                        System.out.println(response.body().toString());
+                       try{
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                                showDialog(context, "Done..!", "Post submited", () -> {
+                                });
+                            }else{
+                                showDialog(context, "Opps..!", "Could not submit", () -> {
+                                });
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================error");
+                            e.printStackTrace();
+                        }
 
                     } else {
                         System.out.println("_==================Returned empty response");
@@ -552,7 +652,6 @@ public class PostListingFragment extends Fragment {
         });
     }
 
-
     private void getActivePosts(){
         progress_circular.setVisibility(View.VISIBLE);
         postList.clear();
@@ -579,7 +678,7 @@ public class PostListingFragment extends Fragment {
                                    for (int i = 0; i < jsonArray.length(); i++) {
                                        //  JSONObject explrObject = jsonArray.getJSONObject(i);
                                        Post post = new Gson().fromJson(jsonArray.get(i).toString(), Post.class);
-                                       post.setImageUrl(apiBaseUrl+"uploadedFiles/"+post.getImageUrl());
+                                       post.setImageUrl(apiBaseUrl+"post/uploadedFiles/"+post.getImageUrl());
                                        postList.add(post);
                                    }
                                }else{
@@ -620,6 +719,73 @@ public class PostListingFragment extends Fragment {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 progress_circular.setVisibility(View.GONE);
+                showDialog(context, "Opps..!", "Time out \nCould not connect", () -> {
+                });
+                System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
+            }
+        });
+    }
+
+    private void getBreeds(){
+        progressDialog.show();
+        breedList.clear();
+
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
+
+        Call<String> call = apiInterface.getBreeds();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) { //Response code : 200
+                    if (response.body() != null) {
+                        //  System.out.println("_==================onSuccessimg");
+                           System.out.println(response.body().toString());
+                        try {
+                            //  JSONArray jsonArray = new JSONArray(response.body().toString());
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                                if(!jsnobject.getString("data").equals(""))
+                                {
+                                    JSONArray jsonArray = new JSONArray(jsnobject.getString("data"));
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        Breed breed = new Gson().fromJson(jsonArray.get(i).toString(), Breed.class);
+                                        breedList.add(breed);
+                                    }
+                                    BreedStorage.breeds = breedList;
+                                }else{
+                                    noListingsItemsLabel.setVisibility(View.VISIBLE);
+                                    Toast.makeText(context, "No Breeds to show", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Contact admin", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================error");
+                            e.printStackTrace();
+                        }
+                        //Todo display posts
+                    } else {
+                        System.out.println("_==================Returned empty response");
+                    }
+                    progressDialog.dismiss();
+                } else { //Response code : 400 response.code()
+                    try {
+                        String error = response.errorBody().string();
+                        System.out.println("_==================Error: "+error);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    showDialog(context, "Opps..!", "Error", () -> {
+                    });
+                    progressDialog.dismiss();
+                }
+                //  appProgressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
                 showDialog(context, "Opps..!", "Time out \nCould not connect", () -> {
                 });
                 System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());

@@ -170,29 +170,38 @@ class DataBase
         return $login_id;
     }
 
-    public function submitPost($title, $price, $description, $gender, $age, $date, $location, $imageName, $encodedImage, $status, $owner_id)
+    public function submitPost($title, $price, $description, $gender, $age, $date, $location, $imageName, $encodedImage, $status, $breed_id, $owner_id)
     {
-        //  $image = $_POST["image"];
+        $target_dir = "./uploadedFiles/";
+
+        if (is_dir("./uploadedFiles")) {
+            $target_dir = "./uploadedFiles/";
+        } else {
+            mkdir('./uploadedFiles', 0777, true);
+            $target_dir = "./uploadedFiles/";
+        }
+
         $decodedImage = base64_decode("$encodedImage");
-        $return       = file_put_contents("uploadedFiles/" . $imageName . ".JPG", $decodedImage);
+        $return       = file_put_contents($target_dir . $imageName . ".JPG", $decodedImage);
 
         $saveImgName = $imageName . ".JPG";
 
         if ($return !== false) {
             // upload success
-        }
-        $sql = "INSERT INTO `post` (`title`, `price`, `description`, `gender`, `age`, `date`, `location`, `imageUrl`, `status`, `owner_id`) VALUES ";
+            $sql = "INSERT INTO `post` (`title`, `price`, `description`, `gender`, `age`, `date`, `location`, `imageUrl`, `status`, `breed_id`, `owner_id`) VALUES ";
 
-        $sql .= " ('{$title}', '{$price}', '{$description}', '{$gender}', '{$age}', '{$date}', '{$location}', '{$saveImgName}', '{$status}', {$owner_id} ) ";
+            $sql .= " ('{$title}', '{$price}', '{$description}', '{$gender}', '{$age}', '{$date}', '{$location}', '{$saveImgName}', '{$status}', {$breed_id}, {$owner_id} ) ";
 
-        $this->sql = $sql;
-        $result    = mysqli_query($this->connect, $this->sql);
-        if ($result) {
-            $response = true;
+            $this->sql = $sql;
+            $result    = mysqli_query($this->connect, $this->sql);
+            if ($result) {
+                $response = true;
+            } else {
+                $response = false;
+            }
         } else {
             $response = false;
         }
-
         return $response;
     }
 
@@ -486,6 +495,190 @@ class DataBase
 
             if (mysqli_num_rows($result) != 0) {
                 $response = mysqli_fetch_assoc($result);
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function getBreeds()
+    {
+        $response = array();
+
+        $this->sql = "SELECT * FROM dog_breed";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    array_push($response, $row);
+                }
+            } else {
+                $response = "";
+            }
+        } else {
+            $response = "";
+        }
+        return $response;
+    }
+
+    public function addVideo($url)
+    {
+        $sql = "INSERT INTO `youtube_video` (`url`,`title`,`published_time`,`duration`,`views`,`likes`,`comments`) VALUES ";
+        $sql .= " ('{$url}', '-', '-', '-',0,0,0) ";
+
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        return $response;
+    }
+
+    public function updateStatistics($id, $data)
+    {
+        $title        = $data->items['0']->snippet->title;
+        $publishedAt  = $data->items['0']->snippet->publishedAt;
+        $duration     = $data->items['0']->contentDetails->duration;
+        $viewCount    = $data->items['0']->statistics->viewCount;
+        $likeCount    = $data->items['0']->statistics->likeCount;
+        $commentCount = $data->items['0']->statistics->commentCount;
+
+        $sql = "UPDATE youtube_video SET ";
+        $sql .= "title = '{$title}', ";
+        $sql .= "published_time = '{$publishedAt}', ";
+        $sql .= "duration = '{$duration}', ";
+        $sql .= "views = {$viewCount}, ";
+        $sql .= "likes = {$likeCount}, ";
+        $sql .= "comments = {$commentCount} ";
+        $sql .= "WHERE id = {$id}";
+
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        if ($data != "") {
+
+        }
+        // return $response;
+    }
+
+    public function getStatistics($id, $url)
+    {
+        $queryString = parse_url($url, PHP_URL_QUERY);
+        parse_str($queryString, $params);
+
+        if (isset($params['v']) && strlen($params['v']) > 0) {
+            $vidEoID = $params['v'];
+
+            $api_key = "AIzaSyDFliJ2_ca04wz6Y5cM3vLqM9nxrFyOG-o"; //your API Key
+            $api_ur  = 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' . $vidEoID . '&key=' . $api_key;
+
+            $data = json_decode(file_get_contents($api_ur));
+
+            $this->updateStatistics($id, $data);
+            // return $data;
+        } else {
+            // return "";
+        }
+    }
+
+    public function getVideos()
+    {
+        $response = array();
+
+        $this->sql = "SELECT * FROM youtube_video";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            if (mysqli_num_rows($result) != 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $this->getStatistics($row['id'], $row['url']);
+                }
+                //....................
+                $this->sql = "SELECT * FROM youtube_video";
+                $result_2  = mysqli_query($this->connect, $this->sql);
+                if ($result_2) {
+                    if (mysqli_num_rows($result_2) != 0) {
+                        while ($row = mysqli_fetch_assoc($result_2)) {
+                            array_push($response, $row);
+                        }
+                    }
+                }
+            }
+        }
+        return $response;
+    }
+
+    public function getMaxStatus()
+    {
+        $response = array("max_likes_video" => "", "max_views_video" => "");
+
+        $this->sql = "SELECT * FROM youtube_video";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            if (mysqli_num_rows($result) != 0) {
+
+                //max likes
+                $this->sql = "SELECT * from youtube_video WHERE likes = (SELECT MAX(likes) FROM youtube_video LIMIT 1)";
+                $result_2  = mysqli_query($this->connect, $this->sql);
+                if ($result_2) {
+                    if (mysqli_num_rows($result_2) != 0) {
+                        $row                         = mysqli_fetch_assoc($result_2);
+                        $response['max_likes_video'] = $row;
+                    }
+                }
+
+                //max views
+                $this->sql = "SELECT * from youtube_video WHERE views = (SELECT MAX(views) FROM youtube_video LIMIT 1)";
+                $result_3  = mysqli_query($this->connect, $this->sql);
+                if ($result_3) {
+                    if (mysqli_num_rows($result_3) != 0) {
+                        $row                         = mysqli_fetch_assoc($result_3);
+                        $response['max_views_video'] = $row;
+                    }
+                }
+            }
+        }
+        return $response;
+    }
+
+    public function getMostDemandBreed()
+    {
+        $response = array("max_breed_id" => 0, "max_breed_name" => "", "no_of_post" => 0);
+
+        $sql       = "SELECT id, COUNT(breed_id) as count FROM post GROUP BY breed_id";
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            if (mysqli_num_rows($result) != 0) {
+                $max_breed_id = 0;
+                $max_count    = 0; // intval() => convert string to int
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if (intval($row['count']) > $max_count) {
+                        $max_count    = intval($row['count']);
+                        $max_breed_id = intval($row['id']);
+                    }
+                }
+                $response['max_breed_id'] = $max_breed_id;
+                $response['no_of_post']   = $max_count;
+                //  $response = "{'breed_id':" . $max_breed_id . ",'no_of_post':" . $max_count . "}";
+                // $response = mysqli_fetch_assoc($result);
+                $sql       = "SELECT breed FROM dog_breed";
+                $this->sql = $sql;
+                $result_3  = mysqli_query($this->connect, $this->sql);
+                if ($result_3) {
+                    $row                        = mysqli_fetch_assoc($result_3);
+                    $response['max_breed_name'] = $row['breed'];
+                }
             } else {
                 $response = "";
             }

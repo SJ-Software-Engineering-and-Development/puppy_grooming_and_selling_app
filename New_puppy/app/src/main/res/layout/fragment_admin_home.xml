@@ -3,7 +3,7 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/puppy_foot_bg_2"
+android:background="@drawable/bground"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 tools:context=".fragment.AdminHomeFragment">
 <!--#F1F1F1-->
@@ -38,7 +38,7 @@ tools:context=".fragment.AdminHomeFragment">
                 android:layout_height="match_parent"
                 app:civ_border_color="@color/colorAppPrimary"
                 app:civ_border_width="2dp"
-                android:src="@drawable/ic_baseline_account_circle_24" />
+                android:src="@drawable/default_avatar" />
             <!--  Card Left  -->
             <!--  Card Right  -->
             <LinearLayout
@@ -94,17 +94,17 @@ tools:context=".fragment.AdminHomeFragment">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="MY DIVISION"
+                android:text="STATISTICS"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginVertical="7dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorAppPrimary"
+                android:textColor="@color/colorBlack"
                 />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_posts"
+                android:id="@+id/card_demand_statistics"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
@@ -119,7 +119,133 @@ tools:context=".fragment.AdminHomeFragment">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="20dp"
+                    android:paddingVertical="10dp"
+                    android:orientation="horizontal">
+                    <!--  Card Left  -->
+
+                    <!--  Card Left  -->
+                    <!--  Card Right  -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="Breeds and Youtube videos"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"
+                            android:text="Most demand breed"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorLightGreen"
+                            />
+                        <TextView
+                            android:id="@+id/txtMostDemandBreed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="No Breed name to show"
+                            android:textSize="13sp"
+                            android:textStyle="normal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorGray"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"
+                            android:text="Most watched video"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorLightGreen"
+                            />
+                        <TextView
+                            android:id="@+id/txtMaxViewVideoTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="Video title here"
+                            android:textSize="13sp"
+                            android:textStyle="normal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorGray"
+                            />
+                        <TextView
+                            android:id="@+id/txtMaxViewVideoNoOfViews"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="No of views here"
+                            android:textSize="13sp"
+                            android:textStyle="normal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorGray"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"
+                            android:text="Most liked video"
+                            android:textStyle="bold"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorLightGreen"
+                            />
+                        <TextView
+                            android:id="@+id/txtMaxLikesVideoTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="Video title here"
+                            android:textSize="13sp"
+                            android:textStyle="normal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorGray"
+                            />
+                        <TextView
+                            android:id="@+id/txtMaxLikesVideoNoOfLikes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="No of likes here"
+                            android:textSize="13sp"
+                            android:textStyle="normal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorGray"
+                            />
+                    </LinearLayout>
+                    <!-- .\Card Right  -->
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_post_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginBottom="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:checkable="true"
+                app:cardElevation="5dp"
+                app:cardCornerRadius="10dp"
+                android:layout_marginTop="15dp"
+                app:contentPadding="12dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
                     android:orientation="horizontal">
                     <!--  Card Left  -->
 
@@ -180,13 +306,13 @@ tools:context=".fragment.AdminHomeFragment">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="ACTIVITIES"
+                android:text="MANAGEMENT ITEMS"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginVertical="7dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorAppPrimary"
+                android:textColor="@color/colorBlack"
                 />
 
             <!--  Card row 1  -->
@@ -224,7 +350,7 @@ tools:context=".fragment.AdminHomeFragment">
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="0 bookings"
+                            android:text="booking details"
                             android:textSize="13sp"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="@color/colorAppPrimary"
@@ -306,6 +432,88 @@ tools:context=".fragment.AdminHomeFragment">
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
+                            android:text="show details"
+                            android:textSize="13sp"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorAppPrimary"
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_posts"
+                    android:layout_width="160dp"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:checkable="true"
+                    app:cardElevation="5dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:contentPadding="12dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Posts"
+                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/tv34545"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="post details"
+                            android:textSize="13sp"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorAppPrimary"
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+            <!--  Card row 2 End -->
+
+            <!--  Card row 3  -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingVertical="15dp"
+                >
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_videos"
+                    android:layout_width="160dp"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:checkable="true"
+                    app:cardElevation="5dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:contentPadding="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="YTB videos"
+                            android:textSize="16sp"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:id="@+id/tvVidoesCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
                             android:text="0 veterinareis"
                             android:textSize="13sp"
                             android:textAppearance="?attr/textAppearanceBody2"
@@ -315,7 +523,7 @@ tools:context=".fragment.AdminHomeFragment">
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_other"
+                    android:id="@+id/card_2232"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
                     android:clickable="true"
@@ -335,16 +543,16 @@ tools:context=".fragment.AdminHomeFragment">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Users"
+                            android:text="Posts"
                             android:textSize="16sp"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             />
                         <TextView
-                            android:id="@+id/tv34545"
+                            android:id="@+id/tv1234"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="users details"
+                            android:text="post details"
                             android:textSize="13sp"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="@color/colorAppPrimary"

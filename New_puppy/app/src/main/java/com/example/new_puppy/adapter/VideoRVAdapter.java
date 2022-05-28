@@ -13,21 +13,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.new_puppy.R;
-import com.example.new_puppy.fragment.UsersListFragment;
 import com.example.new_puppy.fragment.VeterinaryFragment;
-import com.example.new_puppy.model.Veterinary;
+import com.example.new_puppy.fragment.YtbVideoFragment;
+import com.example.new_puppy.model.YtbVideo;
 import com.example.new_puppy.utils.ListItemAnimation;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapter.UsersRecyclerviewHolder>{
+public class VideoRVAdapter extends RecyclerView.Adapter<VideoRVAdapter.UsersRecyclerviewHolder>{
     Context context;
-    List<Veterinary> dataList;
-    List<Veterinary> filteredDataList;
+    List<YtbVideo> dataList;
+    List<YtbVideo> filteredDataList;
 
-    public VeterinaryRVAdapter(Context context, List<Veterinary> userList) {
+    public VideoRVAdapter(Context context, List<YtbVideo> userList) {
         this.context = context;
         this.dataList = userList;
         this.filteredDataList = userList;
@@ -35,20 +35,22 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
 
     @NonNull
     @Override
-    public VeterinaryRVAdapter.UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VideoRVAdapter.UsersRecyclerviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.admin_post_recycler_item, parent, false);
-        return new VeterinaryRVAdapter.UsersRecyclerviewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.video_recyclerview_item, parent, false);
+        return new VideoRVAdapter.UsersRecyclerviewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VeterinaryRVAdapter.UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull VideoRVAdapter.UsersRecyclerviewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         holder.txtTitle.setText(filteredDataList.get(position).getTitle());
-        holder.txtStatus.setText(filteredDataList.get(position).getCity());
-        holder.txtDate.setText(filteredDataList.get(position).getContact());
+        holder.cardSubTitle.setText("----");
+        holder.bottomLText.setText(String.valueOf(filteredDataList.get(position).getLikes()));
+        holder.bottomMText.setText(String.valueOf(filteredDataList.get(position).getViews()));
+        holder.bottomRText.setText(String.valueOf(filteredDataList.get(position).getComments()));
         // Picasso.get().load(filteredDataList.get(position).getImageUrl()).into(holder.cardimage);
-        holder.cardimage.setImageResource(R.drawable.ic_baseline_local_hospital_24);
+        // holder.cardimage.setImageResource(R.drawable.ic_baseline_local_hospital_24);
 
         ListItemAnimation.animateFadeIn(holder.itemView, position);
 
@@ -56,14 +58,7 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VeterinaryFragment.listItemOnClick(filteredDataList.get(position).getId());
-            }
-        });
-
-        holder.btnActions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                VeterinaryFragment.listItemOnClick(filteredDataList.get(position).getId());
+                YtbVideoFragment.listItemOnClick(filteredDataList.get(position).getId());
             }
         });
     }
@@ -75,18 +70,15 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
 
     public static final class UsersRecyclerviewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtTitle, txtStatus, txtDate;
-        ImageView cardimage;
-        MaterialButton btnActions;
+        TextView txtTitle, cardSubTitle, bottomLText, bottomMText, bottomRText;
 
-        //        CircleImageView imageDisaster;
         public UsersRecyclerviewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTitle = itemView.findViewById(R.id.txtTitle);
-            txtStatus = itemView.findViewById(R.id.txtStatus);
-            txtDate = itemView.findViewById(R.id.txtDate);
-            btnActions = itemView.findViewById(R.id.btnActions);
-            cardimage = itemView.findViewById(R.id.imageItem);
+            txtTitle = itemView.findViewById(R.id.cardTitle);
+            cardSubTitle = itemView.findViewById(R.id.cardSubTitle);
+            bottomLText = itemView.findViewById(R.id.bottomLText);
+            bottomMText = itemView.findViewById(R.id.bottomMText);
+            bottomRText = itemView.findViewById(R.id.bottomRText);
         }
     }
 
@@ -101,9 +93,9 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
                     filteredDataList = dataList;
                 } else {
 
-                    List<Veterinary> lstFiltered = new ArrayList<>();
-                    for (Veterinary row : dataList) {
-                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getCity().toLowerCase().contains(Key.toLowerCase()) || row.getAddress().toLowerCase().contains(Key.toLowerCase()) ) {
+                    List<YtbVideo> lstFiltered = new ArrayList<>();
+                    for (YtbVideo row : dataList) {
+                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getUrl().toLowerCase().contains(Key.toLowerCase()) ) {
                             lstFiltered.add(row);
                         }
                     }
@@ -118,7 +110,7 @@ public class VeterinaryRVAdapter extends RecyclerView.Adapter<VeterinaryRVAdapte
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredDataList = (List<Veterinary>) filterResults.values;
+                filteredDataList = (List<YtbVideo>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

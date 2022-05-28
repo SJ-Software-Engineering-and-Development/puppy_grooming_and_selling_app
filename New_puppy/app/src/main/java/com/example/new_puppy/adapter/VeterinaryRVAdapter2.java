@@ -98,7 +98,7 @@ public class VeterinaryRVAdapter2 extends RecyclerView.Adapter<VeterinaryRVAdapt
 
                     List<Veterinary> lstFiltered = new ArrayList<>();
                     for (Veterinary row : dataList) {
-                        if (row.getCity().toLowerCase().contains(Key.toLowerCase()) || row.getAddress().toLowerCase().contains(Key.toLowerCase()) ) {
+                        if (row.getTitle().toLowerCase().contains(Key.toLowerCase()) || row.getCity().toLowerCase().contains(Key.toLowerCase()) || row.getAddress().toLowerCase().contains(Key.toLowerCase()) ) {
                             lstFiltered.add(row);
                         }
                     }

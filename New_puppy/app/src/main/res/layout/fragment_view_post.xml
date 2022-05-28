@@ -224,7 +224,7 @@ android:padding="5dp">
                                 android:layout_marginRight="10dp"
                                 app:civ_border_width="1dp"
                                 app:civ_border_color="@color/colorAppPrimary"
-                                android:src="@drawable/ic_baseline_account_circle_24" />
+                                android:src="@drawable/default_avatar" />
                             <!--  Card Left  -->
                             <!--  Card Right  -->
                             <LinearLayout

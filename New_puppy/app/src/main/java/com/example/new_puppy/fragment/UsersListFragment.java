@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import com.example.new_puppy.model.BookedSlotCustom;
 import com.example.new_puppy.model.User;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.RetrofitClient;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,11 +57,12 @@ public class UsersListFragment extends Fragment {
     private SharedPreferences sharedPre;
     private static FragmentManager fragmentManager;
 
-    private TextView labelNoOfItems, txtDate;
-    private Button btnGoBack, btnGoForward;
+    private TextView labelNoOfItems;
+    private TextInputEditText txtSearch;
 
     private static List<User> usersList = new ArrayList<User>();
 
+    private CharSequence search="";
     private static String dateSelected ="";
     private static String login_id ="";
 
@@ -95,9 +99,26 @@ public class UsersListFragment extends Fragment {
 
         labelNoOfItems =(TextView) getView().findViewById(R.id.labelNoOfItems);
         postsRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
+        txtSearch = (TextInputEditText) getView().findViewById(R.id.txtSearch);
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Please wait...");
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                usersRVAdapter.getFilter().filter(charSequence);
+                search = charSequence;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
 
         getUsers();
     }

@@ -197,10 +197,14 @@ public class AdminPostListFragment extends Fragment {
 
     //Todo: Post Onclick
     public static void listItemOnClick(int postId){
-        // TODO: Goto View ViewDisasterFragmentViewDisasterFragment
+        replaceFragment(new ViewPostFragment(postId, "AdminPostListFragment"));
+    }
+
+    private static void replaceFragment(Fragment fragment){
+        //TODO: Goto View ViewDisasterFragmentViewDisasterFragment
         //  FragmentManager fragmentManager =  AddUsersFragment.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, new ViewPostFragment(postId, "AdminPostListFragment"));
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
         //  fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

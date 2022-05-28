@@ -3,6 +3,7 @@ package com.example.new_puppy.activity;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.appcompat.widget.AbsActionBarView;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,12 +32,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
-    TextInputEditText textInputEditTextUsername,textInputEditTextPassword;
-    Button buttonLogin,btnNewuserSignUp;
-    Context context;
-    TextView LogoName;
 
+    private ProgressDialog progressDialog;
     private SharedPreferences sharedPre;
+
+    private TextInputEditText textInputEditTextUsername,textInputEditTextPassword;
+    private Button buttonLogin,btnNewuserSignUp;
+    private Context context;
+    private TextView LogoName;
 
     static String apiBaseUrl = "";
 
@@ -49,6 +52,9 @@ public class Login extends AppCompatActivity {
         apiBaseUrl =   apiBaseUrl = getResources().getString(R.string.apiBaseUrl);
 
         sharedPre= getSharedPreferences(getResources().getString(R.string.app_shared_pre), 0);
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Please wait...");
 
         checkSignedIn();
 
@@ -130,7 +136,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
         LogoName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,7 +207,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void getUser(String id){
-
+        progressDialog.show();
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
 
         Call<String> call = apiInterface.getUserById(String.valueOf(id));
@@ -231,7 +236,9 @@ public class Login extends AppCompatActivity {
                     } else {
                         System.out.println("_==================Returned empty response");
                     }
+                    progressDialog.dismiss();
                 } else { //Response code : 400 response.code()
+                    progressDialog.dismiss();
                     try {
                         String error = response.errorBody().string();
                         System.out.println("_==================Error: "+error);
@@ -243,6 +250,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
                 System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
             }
         });

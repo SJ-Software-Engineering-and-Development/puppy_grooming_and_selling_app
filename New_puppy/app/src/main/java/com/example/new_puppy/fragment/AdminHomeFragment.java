@@ -18,11 +18,15 @@ import android.widget.TextView;
 
 import com.example.new_puppy.R;
 import com.example.new_puppy.activity.AppSharedPreferences;
+import com.example.new_puppy.model.Post;
 import com.example.new_puppy.model.User;
+import com.example.new_puppy.model.YtbVideo;
+import com.example.new_puppy.utils.AdminDashboardStorage;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.RetrofitClient;
 import com.example.new_puppy.utils.UserStorage;
 import com.google.android.material.card.MaterialCardView;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,8 +47,9 @@ public class AdminHomeFragment extends Fragment {
     static FragmentManager fragmentManager;
 
     TextView txtNameOfUser, txtEmail, txtUserRole;
+    TextView txtMostDemandBreed, txtMaxViewVideoTitle, txtMaxViewVideoNoOfViews, txtMaxLikesVideoTitle,txtMaxLikesVideoNoOfLikes;
 
-    MaterialCardView card_posts, card_bookings, card_users, card_veterinary;
+    MaterialCardView card_posts, card_bookings, card_users, card_veterinary, card_videos;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -77,10 +82,17 @@ public class AdminHomeFragment extends Fragment {
         card_bookings = (MaterialCardView) getView().findViewById(R.id.card_bookings);
         card_users = (MaterialCardView) getView().findViewById(R.id.card_users);
         card_veterinary = (MaterialCardView) getView().findViewById(R.id.card_veterinary);
+        card_videos = (MaterialCardView) getView().findViewById(R.id.card_videos);
 
         txtNameOfUser = (TextView) getView().findViewById(R.id.txtNameOfUser);
         txtEmail = (TextView) getView().findViewById(R.id.txtEmail);
         txtUserRole = (TextView) getView().findViewById(R.id.txtUserRole);
+
+        txtMostDemandBreed= (TextView) getView().findViewById(R.id.txtMostDemandBreed);
+        txtMaxViewVideoTitle= (TextView) getView().findViewById(R.id.txtMaxViewVideoTitle);
+        txtMaxViewVideoNoOfViews= (TextView) getView().findViewById(R.id.txtMaxViewVideoNoOfViews);
+        txtMaxLikesVideoTitle= (TextView) getView().findViewById(R.id.txtMaxLikesVideoTitle);
+        txtMaxLikesVideoNoOfLikes= (TextView) getView().findViewById(R.id.txtMaxLikesVideoNoOfLikes);
 
         card_posts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,12 +122,33 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
+        card_videos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoFragment(new YtbVideoFragment());
+            }
+        });
+
         if(UserStorage.user!=null){
             if(UserStorage.user.getId() != 0){
                 updateView();
             }
         }else{
             getUser(this.login_id);
+        }
+
+        if(AdminDashboardStorage.max_likes_video!=null){
+            if(AdminDashboardStorage.max_likes_video.getId() != 0){
+                updateStatusCard();
+            }
+        }else{
+            getMaxStatus();
+        }
+
+        if(AdminDashboardStorage.max_breed_id!=0){
+             updateStatusCard_S2();
+        }else{
+            getMostDemandBreed();
         }
     }
 
@@ -125,6 +158,7 @@ public class AdminHomeFragment extends Fragment {
         //  fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 
     private void getUser(String id){
 
@@ -180,9 +214,159 @@ public class AdminHomeFragment extends Fragment {
         });
     }
 
+    private void getMaxStatus(){
+
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
+
+        Call<String> call = apiInterface.getMaxStatus();
+
+        progressDialog.setTitle("please wait...");
+        progressDialog.show();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) { //Response code : 200
+                    if (response.body() != null) {
+                        //  System.out.println("_==================onSuccessimg");
+                          System.out.println(response.body().toString());
+                        try {
+                            //  JSONArray jsonArray = new JSONArray(response.body().toString());
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                                JSONObject dataObj = new JSONObject(jsnobject.getString("data"));
+                               // JSONObject max_likesObj = new JSONObject(jsnobject.getString("max_likes_video"));
+                                try {
+                                    YtbVideo max_likes_video = new Gson().fromJson(dataObj.getString("max_likes_video"), YtbVideo.class);
+                                    YtbVideo max_views_video = new Gson().fromJson(dataObj.getString("max_views_video"), YtbVideo.class);
+
+                                    AdminDashboardStorage.max_likes_video = max_likes_video;
+                                    AdminDashboardStorage.max_views_video = max_views_video;
+                                }catch (JSONException e){
+                                    System.out.println("_==================JSONException=======");
+                                   e.printStackTrace();
+                                }
+
+                                updateStatusCard();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================error");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("_==================Returned empty response");
+                    }
+                    progressDialog.dismiss();
+                } else { //Response code : 400 response.code()
+                    try {
+                        String error = response.errorBody().string();
+                        System.out.println("_==================Error: "+error);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+                System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
+            }
+        });
+    }
+
+    private void getMostDemandBreed(){
+
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
+
+        Call<String> call = apiInterface.getMostDemandBreed();
+
+        progressDialog.setTitle("please wait...");
+        progressDialog.show();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) { //Response code : 200
+                    if (response.body() != null) {
+                        //  System.out.println("_==================onSuccessimg");
+                        System.out.println(response.body().toString());
+                        try {
+                            //  JSONArray jsonArray = new JSONArray(response.body().toString());
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                                if(!jsnobject.getString("data").equals("")){
+                                    JSONObject dataObj = new JSONObject(jsnobject.getString("data"));
+                                    String breed_name = dataObj.getString("max_breed_name");
+                                    Integer breed_id = dataObj.getInt("max_breed_id");
+                                    Integer no_of_post = dataObj.getInt("no_of_post");
+                                    AdminDashboardStorage.max_breed_id = breed_id;
+                                    AdminDashboardStorage.max_breed_name = breed_name;
+                                    AdminDashboardStorage.max_breed_posts = no_of_post;
+                                    updateStatusCard_S2();
+                                }else{
+                                    System.out.println("_==================Returned empty data");
+                                }
+                            }else{
+                                System.out.println("_==================Unsuccess");
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================error");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("_==================Returned empty response");
+                    }
+                    progressDialog.dismiss();
+                } else { //Response code : 400 response.code()
+                    try {
+                        String error = response.errorBody().string();
+                        System.out.println("_==================Error: "+error);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+                System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
+            }
+        });
+    }
+
     private void updateView(){
         txtNameOfUser.setText(UserStorage.user.getFullName());
         txtEmail.setText(UserStorage.user.getEmail());
         txtUserRole.setText(UserStorage.user.getUserType());
+    }
+
+    private void updateStatusCard(){
+        if(AdminDashboardStorage.max_likes_video!=null){
+            YtbVideo max_likes_video = AdminDashboardStorage.max_likes_video;
+            YtbVideo max_views_video = AdminDashboardStorage.max_views_video;
+            txtMaxLikesVideoTitle.setText(max_likes_video.getTitle());
+            txtMaxLikesVideoNoOfLikes.setText("LIKES: "+max_likes_video.getLikes() + " " + "VIEWS: " + max_likes_video.getViews());
+            txtMaxViewVideoTitle.setText(max_views_video.getTitle());
+            txtMaxViewVideoNoOfViews.setText("LIKES: "+max_views_video.getLikes() + " " + "VIEWS: " + max_views_video.getViews());
+        }else{
+            txtMaxLikesVideoTitle.setText("No videos so far");
+            txtMaxLikesVideoNoOfLikes.setText("");
+            txtMaxViewVideoTitle.setText("No videos so far");
+            txtMaxViewVideoNoOfViews.setText("");
+        }
+    }
+
+    private void updateStatusCard_S2(){
+        if(AdminDashboardStorage.max_breed_name!=null){
+            txtMostDemandBreed.setText(AdminDashboardStorage.max_breed_name+" (" + AdminDashboardStorage.max_breed_posts + " posts)");
+        }else{
+            System.out.println("===================== NULL");
+        }
     }
 }
