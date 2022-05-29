@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-
 }
 
 android {
@@ -20,6 +19,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+          //  resValue "string", "google_maps_api_key", "Release_API_KEY"
+        }
+        debug {
+            // KL MBP debug Key
+           // resValue "string", "google_maps_debug_api_key", "DEBUG_API_KEY"
+            // KL Old Machine debug Key
+            // resValue "string", "google_maps_api_key", "DEBUG_API_KEY"
         }
     }
     compileOptions {

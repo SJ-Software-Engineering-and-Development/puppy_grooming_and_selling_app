@@ -1,38 +1,41 @@
 package com.example.new_puppy.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.new_puppy.R;
-import com.example.new_puppy.adapter.PostRecyclerviewAdapter;
-import com.example.new_puppy.adapter.VeterinaryRVAdapter;
-import com.example.new_puppy.adapter.VeterinaryRVAdapter2;
+import com.example.new_puppy.model.MapLocation;
 import com.example.new_puppy.model.SearchModel;
 import com.example.new_puppy.model.Veterinary;
 import com.example.new_puppy.utils.ApiInterface;
-import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -51,52 +54,42 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserVeterinaryListFragment extends Fragment {
+public class VeterinarianMapFragment extends Fragment {
+
     static String apiBaseUrl = "";
     private static Context context;
     private static Activity activity;
+
     private ProgressDialog progressDialog;
-    private static FragmentManager fragmentManager;
+    private Chip chip_choose_city;
 
-    private Chip chip_choose_city, chip_goto_map_view;
-    private SwipeRefreshLayout swipeContainer;
-    private CircularProgressIndicator progress_circular;
-    private TextView noListingsItemsLabel;
+    SupportMapFragment supportMapFragment;
+    FusedLocationProviderClient client;
+    private GoogleMap gMap;
 
-    private Button btnFullView, btnFullViewClose;
-
-    private static RecyclerView veterinaryRecycler;
-    private static VeterinaryRVAdapter2 veterinaryRVAdapter2;
-
-    private CharSequence search="";
     private String selectedCity="";
-
-    private ImageView imgViewClinic;
-
     private static List<Veterinary> veterinaryList = new ArrayList<Veterinary>();
 
-    public UserVeterinaryListFragment() {
+    public VeterinarianMapFragment() {
         // Required empty public constructor
-        Navigation.currentScreen= "UserVeterinaryListFragment";
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         apiBaseUrl = getResources().getString(R.string.apiBaseUrl);
         context = getContext();
-        activity =getActivity();
+        activity = getActivity();
+
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Please wait...");
-        fragmentManager = getActivity().getSupportFragmentManager();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_veterinary_list, container, false);
+        return inflater.inflate(R.layout.fragment_veterinarian_map, container, false);
     }
 
     @Override
@@ -104,10 +97,10 @@ public class UserVeterinaryListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         chip_choose_city =(Chip) getView().findViewById(R.id.chip_choose_city);
-        chip_goto_map_view =(Chip) getView().findViewById(R.id.chip_goto_map_view);
-        veterinaryRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
-        swipeContainer  = (SwipeRefreshLayout) getView().findViewById(R.id.swipeContainer);
-        noListingsItemsLabel  = (TextView) getView().findViewById(R.id.noListingsItemsLabel);
+
+        supportMapFragment = (SupportMapFragment)getChildFragmentManager()
+                .findFragmentById(R.id.map);
+       // supportMapFragment.getMapAsync(this);
 
         chip_choose_city.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,74 +124,62 @@ public class UserVeterinaryListFragment extends Fragment {
             }
         });
 
-        chip_goto_map_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new VeterinarianMapFragment());
-            }
-        });
-
-        btnFullView = (Button) getView().findViewById(R.id.btnFullView);
-        btnFullViewClose = (Button) getView().findViewById(R.id.btnFullViewClose);
-
-        progress_circular = (CircularProgressIndicator) getView().findViewById(R.id.progress_circular);
-        progress_circular.setVisibility(View.VISIBLE);
-
-        btnFullView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imgViewClinic.setVisibility(View.GONE);
-                btnFullView.setVisibility(View.GONE);
-                btnFullViewClose.setVisibility(View.VISIBLE);
-            }
-        });
-        btnFullViewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imgViewClinic.setVisibility(View.VISIBLE);
-                btnFullView.setVisibility(View.VISIBLE);
-                btnFullViewClose.setVisibility(View.GONE);
-            }
-        });
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                fetchTimelineAsync(0);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
         getVeterianries();
     }
 
-    public void fetchTimelineAsync(int page) {
-        // Send the network request to fetch the updated data
-        // `client` here is an instance of Android Async HTTP
-        // getHomeTimeline is an example endpoint.
-        getVeterianries();
-        swipeContainer.setRefreshing(false);
+    private void removeLocations(){
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                gMap = googleMap;
+                //remove previose markers from map
+                gMap.clear();
+            }
+        });
     }
 
-    private ArrayList<SearchModel> getCityList(){
-        List<String> listCity = Arrays.asList(getResources().getStringArray(R.array.city_list));
-        ArrayList<SearchModel> items = new ArrayList<>();
-        for(String city: listCity){
-            items.add(new SearchModel(city));
+    private void showtLocation(List<MapLocation> locations) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling ActivityCompat#requestPermissions
+            System.out.println("==================Permition not granted FOR ACCESS_FINE_LOCATION");
+         //   return;
         }
-        return items;
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                gMap = googleMap;
+                //remove previose markers from map
+                gMap.clear();
+                ArrayList<LatLng> locationArrayList = getLocations();
+                // Draw multiple markers.
+                    /*
+                    for (int i = 0; i < locationArrayList.size(); i++) {
+                        // Add marker to each location of our array list.
+                        gMap.addMarker(new MarkerOptions().position(locationArrayList.get(i)).title("Marker"));
+                        // Zoom our camera on map.
+                        gMap.animateCamera(CameraUpdateFactory.zoomTo(28.0f));
+                        // Move our camera to the specific location.
+                        gMap.moveCamera(CameraUpdateFactory.newLatLng(locationArrayList.get(i)));
+                    }
+                    */
+
+                for (MapLocation place: locations) {
+                    // Add marker to each location of our array list.
+                    gMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getLocationName()));
+                    // Zoom our camera on map.
+                  //  gMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+                    // Move our camera to the specific location.
+                  //  gMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
+                }
+                if(locations.size() > 0)
+                    gMap.animateCamera((CameraUpdateFactory.newLatLngZoom(locations.get(0).getLatLng(), 8)));
+            }
+        });
     }
 
     private void getVeterianries(){
         veterinaryList.clear();
-        progress_circular.setVisibility(View.VISIBLE);
+        progressDialog.show();
 
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
 
@@ -218,15 +199,25 @@ public class UserVeterinaryListFragment extends Fragment {
                             if(jsnobject.getString("success").equals("1")){
                                 if(!jsnobject.getString("data").equals(""))
                                 {
+                                    List<MapLocation> locations = new ArrayList<>();
                                     JSONArray jsonArray = new JSONArray(jsnobject.getString("data"));
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         //  JSONObject explrObject = jsonArray.getJSONObject(i);
                                         Veterinary veterinary = new Gson().fromJson(jsonArray.get(i).toString(), Veterinary.class);
                                         // post.setImageUrl(apiBaseUrl+"uploadedFiles/"+post.getImageUrl());
-                                        veterinaryList.add(veterinary);
+                                       // veterinaryList.add(veterinary);
+
+                                        locations.add(
+                                                new MapLocation(
+                                                        new LatLng(
+                                                                Double.parseDouble(veterinary.getLatitude()),
+                                                                Double.parseDouble(veterinary.getLongitude())),
+                                                        veterinary.getTitle()));
                                     }
+                                    if(locations.size()>0) showtLocation(locations);
+                                    else removeLocations();
                                 }else{
-                                    veterinaryList.clear();
+                                    removeLocations();
                                     Toast.makeText(context, "No posts to show", Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -234,58 +225,58 @@ public class UserVeterinaryListFragment extends Fragment {
                             System.out.println("_==================error");
                             e.printStackTrace();
                         }
-                        if(veterinaryList.size() > 0){
-                            noListingsItemsLabel.setVisibility(View.GONE);
-                        }else{
-                            noListingsItemsLabel.setVisibility(View.VISIBLE);
-                        }
+
                     } else {
                         System.out.println("_==================Returned empty response");
                     }
-                    //Todo display in list
-                    setRecycler();
-                    progress_circular.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                 } else { //Response code : 400 response.code()
+                    removeLocations();
                     try {
                         String error = response.errorBody().string();
                         System.out.println("_==================Error: "+error);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    progress_circular.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                 }
                 //  appProgressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                progress_circular.setVisibility(View.GONE);
+                progressDialog.dismiss();
                 System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
             }
         });
     }
 
-
-
-    public static void listItemOnClick(int id){
-        Fragment fragment = new ViewVaterinaryFragment(id);
-        replaceFragment(fragment);
+    private ArrayList<SearchModel> getCityList(){
+        List<String> listCity = Arrays.asList(getResources().getStringArray(R.array.city_list));
+        ArrayList<SearchModel> items = new ArrayList<>();
+        for(String city: listCity){
+            items.add(new SearchModel(city));
+        }
+        return items;
     }
 
-    private void  setRecycler(){
-        // vaccineRecycler = getView().findViewById(R.id.vaccineRecycler); TODO : Move to onViewCreated()
-        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
-        veterinaryRecycler.setLayoutManager(layoutManager);
-        veterinaryRVAdapter2 = new VeterinaryRVAdapter2(context, veterinaryList);
-        veterinaryRecycler.setAdapter(veterinaryRVAdapter2);
+    private ArrayList<LatLng> getLocations(){
+
+        ArrayList<LatLng> locationArrayList = new ArrayList<>();
+
+        LatLng sydney = new LatLng(-34, 151);
+        LatLng TamWorth = new LatLng(-31.083332, 150.916672);
+        LatLng NewCastle = new LatLng(-32.916668, 151.750000);
+        LatLng Brisbane = new LatLng(-27.470125, 153.021072);
+
+        // on below line we are adding our
+        // locations in our array list.
+        locationArrayList.add(sydney);
+        locationArrayList.add(TamWorth);
+        locationArrayList.add(NewCastle);
+        locationArrayList.add(Brisbane);
+
+        return  locationArrayList;
     }
 
-    private static void replaceFragment(Fragment fragment){
-        //TODO: Goto View ViewDisasterFragmentViewDisasterFragment
-        //  FragmentManager fragmentManager =  AddUsersFragment.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        //  fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
 }

@@ -26,11 +26,15 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBaWwsquV2cyfg1KrPZ6EseoO7BtMmY3X4" />
+            android:value="@string/google_maps_api_key" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true" />
 
         <activity
             android:name=".activity.SplashActivity"
