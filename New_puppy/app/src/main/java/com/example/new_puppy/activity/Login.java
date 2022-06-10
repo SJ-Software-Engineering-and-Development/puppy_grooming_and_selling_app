@@ -110,18 +110,22 @@ public class Login extends AppCompatActivity {
 
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
-
                                     String result = putData.getResult();
+                                    JSONObject jsnobject = null;
+                                    try {
+                                        jsnobject = new JSONObject(result);
+                                        String res_data = jsnobject.getString("data");
+                                        if(!data.equals("")){
+                                            if(res_data.equals("Login success")){
+                                                getLoginId(idno);
+                                            }else{
+                                                Toast.makeText(getApplicationContext(),res_data,Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                     //End ProgressBar (Set visibility to GONE)
-
-                                    if(result.equals("Login Success")){
-                                        getLoginId(idno);
-                                    }
-                                    else {
-                                        Log.d("Login failed",result);
-                                        Toast.makeText(getApplicationContext(),"Login failed"+result,Toast.LENGTH_SHORT).show();
-                                    }
-
                                 }
                             }
                             //End Write and Read data with URL

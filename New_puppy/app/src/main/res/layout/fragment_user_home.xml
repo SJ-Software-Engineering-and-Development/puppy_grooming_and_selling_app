@@ -234,7 +234,7 @@ tools:context=".fragment.UserHomeFragment">
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardLocalDisasters"
+                    android:id="@+id/card_videos"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
                     android:clickable="true"
@@ -253,7 +253,7 @@ tools:context=".fragment.UserHomeFragment">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Other"
+                            android:text="Videos"
                             android:textSize="16sp"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             />
@@ -262,7 +262,7 @@ tools:context=".fragment.UserHomeFragment">
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="other details"
+                            android:text="watch vidoes"
                             android:textSize="13sp"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="@color/colorAppPrimary"

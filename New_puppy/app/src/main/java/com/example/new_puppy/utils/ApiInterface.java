@@ -18,6 +18,10 @@ import retrofit2.http.Path;
 public interface ApiInterface {
 
     //TODO :   POST ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+    @GET("post/getStatistics.php")
+    Call<String> getPostCountStatistics();
+
     @FormUrlEncoded
     @POST("post/submitPost.php")
     Call<String> submitPost(@Field("title") String title,
@@ -63,6 +67,10 @@ public interface ApiInterface {
     @POST("user/getUser.php")
     Call<String> getUserById(@Field("id") String id);
 
+    @FormUrlEncoded
+    @POST("user/updateAccountStatus.php")
+    Call<String> updateAccountStatus(@Field("id") String id, @Field("status") String status);
+
     //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
@@ -85,11 +93,19 @@ public interface ApiInterface {
     Call<String> getBookedSlotsByUserId(@Field("date") String date, @Field("user_id") String user_id);
 
     @FormUrlEncoded
+    @POST("booking/addSlot.php.")
+    Call<String> addBookingSlot(@Field("from_time") String from_time, @Field("to_time") String to_time, @Field("description") String description);
+
+    @FormUrlEncoded
     @POST("booking/bookSlot.php")
     Call<String> bookSlot(@Field("package_type") String package_type,
                           @Field("date") String date,
                           @Field("user_id") String user_id,
                           @Field("booking_slot_id") String booking_slot_id);
+
+    @FormUrlEncoded
+    @POST("booking/deleteSlot.php")
+    Call<String> deleteSlot(@Field("id") String id);
 
     //TODO :  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -144,6 +160,9 @@ public interface ApiInterface {
     @GET("youtube_video/getMaxStatus.php")
     Call<String> getMaxStatus();
 
+    @FormUrlEncoded
+    @POST("youtube_video/deleteVideo.php")
+    Call<String> deleteVideo(@Field("id") String id);
     //TODO :  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 }

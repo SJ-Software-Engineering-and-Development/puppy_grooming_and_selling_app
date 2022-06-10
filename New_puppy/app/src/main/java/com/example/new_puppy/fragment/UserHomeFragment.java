@@ -40,7 +40,7 @@ public class UserHomeFragment extends Fragment {
     static FragmentManager fragmentManager;
     private ProgressDialog progressDialog;
 
-    MaterialCardView card_posts, card_bookings;
+    MaterialCardView card_posts, card_bookings, card_videos;
     TextView txtNameOfUser, txtEmail, txtUserRole;
 
     private String apiBaseUrl = "";
@@ -79,6 +79,7 @@ public class UserHomeFragment extends Fragment {
 
         card_posts = (MaterialCardView) getView().findViewById(R.id.card_posts);
         card_bookings = (MaterialCardView) getView().findViewById(R.id.card_bookings);
+        card_videos = (MaterialCardView) getView().findViewById(R.id.card_videos);
 
         card_posts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +92,13 @@ public class UserHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                   gotoFragment(new UserBookingListFragment());
+            }
+        });
+
+        card_videos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  gotoFragment(new UserVideosListFragment());
             }
         });
 

@@ -3,6 +3,8 @@ package com.example.new_puppy.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,11 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.new_puppy.R;
-import com.example.new_puppy.adapter.PostRecyclerviewAdapter;
-import com.example.new_puppy.adapter.VeterinaryRVAdapter;
-import com.example.new_puppy.adapter.VeterinaryRVAdapter2;
-import com.example.new_puppy.model.SearchModel;
+import com.example.new_puppy.adapter.UserVideoRVAdapter;
 import com.example.new_puppy.model.Veterinary;
+import com.example.new_puppy.model.YtbVideo;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.Navigation;
 import com.example.new_puppy.utils.RetrofitClient;
@@ -41,17 +41,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
-import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
-import ir.mirrajabi.searchdialog.core.SearchResultListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserVeterinaryListFragment extends Fragment {
+public class UserVideosListFragment extends Fragment {
+
     static String apiBaseUrl = "";
     private static Context context;
     private static Activity activity;
@@ -65,8 +62,9 @@ public class UserVeterinaryListFragment extends Fragment {
 
     private Button btnFullView, btnFullViewClose;
 
-    private static RecyclerView veterinaryRecycler;
-    private static VeterinaryRVAdapter2 veterinaryRVAdapter2;
+    private static RecyclerView postsRecycler;
+    private static UserVideoRVAdapter videoRVAdapter;
+    private static List<YtbVideo> videosList = new ArrayList<YtbVideo>();
 
     private CharSequence search="";
     private String selectedCity="";
@@ -75,9 +73,9 @@ public class UserVeterinaryListFragment extends Fragment {
 
     private static List<Veterinary> veterinaryList = new ArrayList<Veterinary>();
 
-    public UserVeterinaryListFragment() {
+    public UserVideosListFragment() {
         // Required empty public constructor
-        Navigation.currentScreen= "UserVeterinaryListFragment";
+        Navigation.currentScreen= "UserVideosListFragment";
     }
 
     @Override
@@ -96,49 +94,23 @@ public class UserVeterinaryListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_veterinary_list, container, false);
+        return inflater.inflate(R.layout.fragment_user_videos_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Please wait...");
+
         chip_choose_city =(Chip) getView().findViewById(R.id.chip_choose_city);
         chip_goto_map_view =(Chip) getView().findViewById(R.id.chip_goto_map_view);
-        veterinaryRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
+        postsRecycler = (RecyclerView) getView().findViewById(R.id.userRecycler);
         swipeContainer  = (SwipeRefreshLayout) getView().findViewById(R.id.swipeContainer);
         noListingsItemsLabel  = (TextView) getView().findViewById(R.id.noListingsItemsLabel);
 
         imgViewClinic  = (ImageView) getView().findViewById(R.id.imgViewClinic);
-
-        chip_choose_city.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SimpleSearchDialogCompat(getActivity(), "Search...",
-                        "Search  city name here...?", null, getCityList(),
-                        new SearchResultListener<SearchModel>() {
-                            @Override
-                            public void onSelected(BaseSearchDialogCompat dialog,
-                                                   SearchModel item, int position) {
-
-                                // If filtering is enabled, [position] is the index of the item in the filtered result, not in the unfiltered source
-                                //   Log.d("_location_", item.getTitle().toString() );
-                                chip_choose_city.setText(item.getTitle());
-                                selectedCity = item.getTitle();
-                                System.out.println("===============selectedCity " + selectedCity);
-                                dialog.dismiss();
-                                getVeterianries();
-                            }
-                        }).show();
-            }
-        });
-
-        chip_goto_map_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(new VeterinarianMapFragment());
-            }
-        });
 
         btnFullView = (Button) getView().findViewById(R.id.btnFullView);
         btnFullViewClose = (Button) getView().findViewById(R.id.btnFullViewClose);
@@ -154,6 +126,7 @@ public class UserVeterinaryListFragment extends Fragment {
                 btnFullViewClose.setVisibility(View.VISIBLE);
             }
         });
+
         btnFullViewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,33 +151,29 @@ public class UserVeterinaryListFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        getVeterianries();
+        getYtbVideos();
     }
 
     public void fetchTimelineAsync(int page) {
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // getHomeTimeline is an example endpoint.
-        getVeterianries();
+        getYtbVideos();
         swipeContainer.setRefreshing(false);
     }
 
-    private ArrayList<SearchModel> getCityList(){
-        List<String> listCity = Arrays.asList(getResources().getStringArray(R.array.city_list));
-        ArrayList<SearchModel> items = new ArrayList<>();
-        for(String city: listCity){
-            items.add(new SearchModel(city));
-        }
-        return items;
+    public static void listItemOnClick(int id, String url){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
     }
 
-    private void getVeterianries(){
-        veterinaryList.clear();
+    private void getYtbVideos(){
+        videosList.clear();
         progress_circular.setVisibility(View.VISIBLE);
 
         ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
 
-        Call<String> call = apiInterface.getVeterinaryByCity(selectedCity);
+        Call<String> call = apiInterface.getVideos();
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -212,8 +181,8 @@ public class UserVeterinaryListFragment extends Fragment {
 
                 if (response.isSuccessful()) { //Response code : 200
                     if (response.body() != null) {
-                        //  System.out.println("_==================onSuccessimg");
-                        //   System.out.println(response.body().toString());
+                        System.out.println("_==================onSuccessimg");
+                        System.out.println(response.body().toString());
                         try {
                             //  JSONArray jsonArray = new JSONArray(response.body().toString());
                             JSONObject jsnobject = new JSONObject(response.body().toString());
@@ -223,40 +192,32 @@ public class UserVeterinaryListFragment extends Fragment {
                                     JSONArray jsonArray = new JSONArray(jsnobject.getString("data"));
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         //  JSONObject explrObject = jsonArray.getJSONObject(i);
-                                        Veterinary veterinary = new Gson().fromJson(jsonArray.get(i).toString(), Veterinary.class);
-                                        // post.setImageUrl(apiBaseUrl+"uploadedFiles/"+post.getImageUrl());
-                                        veterinaryList.add(veterinary);
+                                        YtbVideo video = new Gson().fromJson(jsonArray.get(i).toString(), YtbVideo.class);
+                                        System.out.println("=============================== tostring ");
+                                        System.out.println(video);
+                                        videosList.add(video);
                                     }
-                                }else{
-                                    veterinaryList.clear();
-                                    Toast.makeText(context, "No posts to show", Toast.LENGTH_LONG).show();
                                 }
                             }
                         } catch (JSONException e) {
-                            System.out.println("_==================error");
+                            System.out.println("_==================JSONException");
                             e.printStackTrace();
                         }
-                        if(veterinaryList.size() > 0){
-                            noListingsItemsLabel.setVisibility(View.GONE);
-                        }else{
-                            noListingsItemsLabel.setVisibility(View.VISIBLE);
-                        }
                     } else {
+                        Toast.makeText(context, "No Users to show", Toast.LENGTH_LONG).show();
                         System.out.println("_==================Returned empty response");
                     }
-                    //Todo display in list
-                    setRecycler();
+                    setPostRecycler();
                     progress_circular.setVisibility(View.GONE);
                 } else { //Response code : 400 response.code()
+                    progress_circular.setVisibility(View.GONE);
                     try {
                         String error = response.errorBody().string();
                         System.out.println("_==================Error: "+error);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    progress_circular.setVisibility(View.GONE);
                 }
-                //  appProgressDialog.dismiss();
             }
 
             @Override
@@ -267,19 +228,12 @@ public class UserVeterinaryListFragment extends Fragment {
         });
     }
 
-
-
-    public static void listItemOnClick(int id){
-        Fragment fragment = new ViewVaterinaryFragment(id);
-        replaceFragment(fragment);
-    }
-
-    private void  setRecycler(){
+    private static void  setPostRecycler(){
         // vaccineRecycler = getView().findViewById(R.id.vaccineRecycler); TODO : Move to onViewCreated()
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
-        veterinaryRecycler.setLayoutManager(layoutManager);
-        veterinaryRVAdapter2 = new VeterinaryRVAdapter2(context, veterinaryList);
-        veterinaryRecycler.setAdapter(veterinaryRVAdapter2);
+        postsRecycler.setLayoutManager(layoutManager);
+        videoRVAdapter = new UserVideoRVAdapter(context, videosList);
+        postsRecycler.setAdapter(videoRVAdapter);
     }
 
     private static void replaceFragment(Fragment fragment){
@@ -290,4 +244,5 @@ public class UserVeterinaryListFragment extends Fragment {
         //  fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 }

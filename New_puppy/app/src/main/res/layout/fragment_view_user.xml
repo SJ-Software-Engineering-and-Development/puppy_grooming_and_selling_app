@@ -193,6 +193,71 @@ android:padding="5dp">
                                 android:layout_gravity="center"/>
                         </LinearLayout>
 
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/deviver_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginVertical="10dp"
+                            app:dividerInsetStart="1dp"
+                            app:dividerInsetEnd="1dp"/>
+
+                        <TextView
+                            android:id="@+id/labelCurrentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Take Action"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="manage user's account status"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/txtCurrentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="txtCurrentStatus"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary"
+                            android:textStyle="bold"/>
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/chip_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="4dp"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:singleSelection="false">
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_active_acc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Active this account"
+                                    app:chipStartPadding="7dp" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_suspend_acc"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Suspend this account"
+                                    app:chipStartPadding="7dp" />
+                            </com.google.android.material.chip.ChipGroup>
+                        </HorizontalScrollView>
+
                     </LinearLayout>
                 </ScrollView>
 

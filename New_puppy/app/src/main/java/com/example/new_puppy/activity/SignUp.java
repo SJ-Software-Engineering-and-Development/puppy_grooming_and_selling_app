@@ -3,6 +3,7 @@ package com.example.new_puppy.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -29,6 +30,9 @@ public class SignUp extends AppCompatActivity {
     Button singUpbutton;
     private Context context ;
 
+    private SharedPreferences sharedPre;
+    static String apiBaseUrl = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,9 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         context = this;
+        sharedPre= getSharedPreferences("puppy_app",0);
+        apiBaseUrl =   apiBaseUrl = getResources().getString(R.string.apiBaseUrl);
+
         editTextTextFullName = findViewById(R.id.editTextTextFullName);
         editTextTextNICNo = findViewById(R.id.editTextTextNICNo);
         editTextTextCity = findViewById(R.id.editTextTextCity);
@@ -108,7 +115,7 @@ public class SignUp extends AppCompatActivity {
                             data[6] = password;
 
 
-                            PutData putData = new PutData("http://192.168.1.147/LoginRegister/signup.php", "POST", field, data);
+                            PutData putData = new PutData(apiBaseUrl+"signup.php", "POST", field, data);
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     String result = putData.getResult();

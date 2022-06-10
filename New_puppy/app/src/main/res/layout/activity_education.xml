@@ -45,10 +45,10 @@ Everyone can watch the tutorial videos on YouTube from the link here.
         android:id="@+id/YtLin01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:videoId="@string/youtubeLink1"
+        android:layout_below="@id/Puppy_Education_Details"
         app:autoPlay="false"
 
-        android:layout_below="@id/Puppy_Education_Details"
+        app:videoId="@string/youtubeLink1"
 
         />
 

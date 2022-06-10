@@ -55,6 +55,7 @@ import com.example.new_puppy.model.PostStatus;
 import com.example.new_puppy.R;
 import com.example.new_puppy.adapter.PostRecyclerviewAdapter;
 import com.example.new_puppy.model.Post;
+import com.example.new_puppy.model.SearchBreedModel;
 import com.example.new_puppy.model.SearchModel;
 import com.example.new_puppy.utils.ApiInterface;
 import com.example.new_puppy.utils.BreedStorage;
@@ -129,7 +130,7 @@ public class PostListingFragment extends Fragment {
     private List<Post> postList = new ArrayList<Post>();
     private ArrayList<Breed> breedList = new ArrayList<Breed>();
 
-    private ArrayList<SearchModel> breedNameList = new ArrayList<SearchModel>();
+    private ArrayList<SearchBreedModel> breedNameList = new ArrayList<SearchBreedModel>();
     private ArrayList<Integer> breedIDList = new ArrayList<Integer>();
 
     private CharSequence search="";
@@ -426,17 +427,14 @@ public class PostListingFragment extends Fragment {
             public void onClick(View v) {
                 new SimpleSearchDialogCompat(getActivity(), "Search...",
                         "Search  breed name here...?", null, getBreedNameList(),
-                        new SearchResultListener<SearchModel>() {
+                        new SearchResultListener<SearchBreedModel>() {
                             @Override
                             public void onSelected(BaseSearchDialogCompat dialog,
-                                                   SearchModel item, int position) {
-
+                                                   SearchBreedModel item, int position) {
                                 // If filtering is enabled, [position] is the index of the item in the filtered result, not in the unfiltered source
-                                //   Log.d("_location_", item.getTitle().toString() );
                                 chip_breed.setText(item.getTitle());
                                 selectedBreedName = item.getTitle();
-                                selectedBreedId = breedIDList.get(position);
-                                // System.out.println("=>>>>>>>>>>>>>>>>>>>>>>>>>>> selectedBreed: "+selectedBreedId+ " " + selectedBreedName);
+                                selectedBreedId = item.getId();
                                 dialog.dismiss();
                             }
                         }).show();
@@ -576,7 +574,7 @@ public class PostListingFragment extends Fragment {
         return items;
     }
 
-    private ArrayList<SearchModel> getBreedNameList(){
+    private ArrayList<SearchBreedModel> getBreedNameList(){
         if(BreedStorage.breeds !=null){
             if(BreedStorage.breeds.size()!=0)this.breedList = BreedStorage.breeds;
             else getBreeds();
@@ -584,11 +582,11 @@ public class PostListingFragment extends Fragment {
             getBreeds();
         }
 
-        ArrayList<SearchModel> items = new ArrayList<>();
+        ArrayList<SearchBreedModel> items = new ArrayList<>();
         for(Breed breed: breedList){
-           breedIDList.add(breed.getId());
-           breedNameList.add(new SearchModel(breed.getBreed()));
-           items.add(new SearchModel(breed.getBreed()));
+            breedIDList.add(breed.getId());
+            breedNameList.add(new SearchBreedModel(breed.getId(), breed.getBreed()));
+            items.add(new SearchBreedModel(breed.getId(), breed.getBreed()));
         }
         return items;
     }

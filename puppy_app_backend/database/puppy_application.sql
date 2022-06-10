@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `login_user_register` (
   `E-mail` varchar(100) NOT NULL,
   `Contact No` int(10) DEFAULT NULL,
   `Password` varchar(10) DEFAULT NULL,
+  `status` enum('active','suspended') DEFAULT 'active',
   PRIMARY KEY (`id`),
   UNIQUE KEY `Nic Number` (`Nic Number`),
   UNIQUE KEY `E-mail` (`E-mail`)

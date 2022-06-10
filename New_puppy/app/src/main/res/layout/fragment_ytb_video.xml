@@ -130,15 +130,6 @@ tools:context=".fragment.YtbVideoFragment">
                     style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                     />
                 <Button
-                    android:id="@+id/btnExportToExcel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    app:icon="@drawable/ic_baseline_save_alt_24"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="8dp"
-                    style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                    />
-                <Button
                     android:id="@+id/btnAddNew"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"

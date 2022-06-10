@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.new_puppy.R;
@@ -48,8 +49,10 @@ public class AdminHomeFragment extends Fragment {
 
     TextView txtNameOfUser, txtEmail, txtUserRole;
     TextView txtMostDemandBreed, txtMaxViewVideoTitle, txtMaxViewVideoNoOfViews, txtMaxLikesVideoTitle,txtMaxLikesVideoNoOfLikes;
+    TextView txt_total_online_post, txt_total_pending_post;
 
-    MaterialCardView card_posts, card_bookings, card_users, card_veterinary, card_videos;
+    Button btnRefreshBreedsCard, btnRefreshPostStatusCard;
+    MaterialCardView card_posts, card_bookings, card_users, card_veterinary, card_videos, card_post_statistics;
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -83,16 +86,30 @@ public class AdminHomeFragment extends Fragment {
         card_users = (MaterialCardView) getView().findViewById(R.id.card_users);
         card_veterinary = (MaterialCardView) getView().findViewById(R.id.card_veterinary);
         card_videos = (MaterialCardView) getView().findViewById(R.id.card_videos);
+        card_post_statistics = (MaterialCardView) getView().findViewById(R.id.card_post_statistics);
 
         txtNameOfUser = (TextView) getView().findViewById(R.id.txtNameOfUser);
         txtEmail = (TextView) getView().findViewById(R.id.txtEmail);
         txtUserRole = (TextView) getView().findViewById(R.id.txtUserRole);
+
+        btnRefreshBreedsCard = (Button) getView().findViewById(R.id.btnRefreshBreedsCard);
+        btnRefreshPostStatusCard = (Button) getView().findViewById(R.id.btnRefreshPostStatusCard);
+
+        txt_total_online_post = (TextView) getView().findViewById(R.id.txt_total_online_post);
+        txt_total_pending_post = (TextView) getView().findViewById(R.id.txt_total_pending_post);
 
         txtMostDemandBreed= (TextView) getView().findViewById(R.id.txtMostDemandBreed);
         txtMaxViewVideoTitle= (TextView) getView().findViewById(R.id.txtMaxViewVideoTitle);
         txtMaxViewVideoNoOfViews= (TextView) getView().findViewById(R.id.txtMaxViewVideoNoOfViews);
         txtMaxLikesVideoTitle= (TextView) getView().findViewById(R.id.txtMaxLikesVideoTitle);
         txtMaxLikesVideoNoOfLikes= (TextView) getView().findViewById(R.id.txtMaxLikesVideoNoOfLikes);
+
+        card_post_statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoFragment(new AdminPostListFragment());
+            }
+        });
 
         card_posts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +146,21 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
+        btnRefreshBreedsCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMaxStatus();
+                getMostDemandBreed();
+            }
+        });
+
+        btnRefreshPostStatusCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPostCountStatistics();
+            }
+        });
+
         if(UserStorage.user!=null){
             if(UserStorage.user.getId() != 0){
                 updateView();
@@ -137,19 +169,9 @@ public class AdminHomeFragment extends Fragment {
             getUser(this.login_id);
         }
 
-        if(AdminDashboardStorage.max_likes_video!=null){
-            if(AdminDashboardStorage.max_likes_video.getId() != 0){
-                updateStatusCard();
-            }
-        }else{
-            getMaxStatus();
-        }
-
-        if(AdminDashboardStorage.max_breed_id!=0){
-             updateStatusCard_S2();
-        }else{
-            getMostDemandBreed();
-        }
+        getMaxStatus();
+        getMostDemandBreed();
+        getPostCountStatistics();
     }
 
     private void gotoFragment(Fragment fragment) {
@@ -213,6 +235,69 @@ public class AdminHomeFragment extends Fragment {
             }
         });
     }
+
+    private void getPostCountStatistics(){
+
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
+
+        Call<String> call = apiInterface.getPostCountStatistics();
+
+        progressDialog.setTitle("please wait...");
+        progressDialog.show();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) { //Response code : 200
+                    if (response.body() != null) {
+                        //  System.out.println("_==================onSuccessimg");
+                        System.out.println(response.body().toString());
+                        try {
+                            //  JSONArray jsonArray = new JSONArray(response.body().toString());
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                                JSONObject dataObj = new JSONObject(jsnobject.getString("data"));
+                                // JSONObject max_likesObj = new JSONObject(jsnobject.getString("max_likes_video"));
+                                try {
+
+                                    AdminDashboardStorage.total_online_post = Integer.parseInt(dataObj.getString("total_online"));
+                                    AdminDashboardStorage.total_pending_post = Integer.parseInt(dataObj.getString("total_pending"));
+
+                                }catch (JSONException e){
+                                    System.out.println("_==================JSONException=======");
+                                    e.printStackTrace();
+                                }
+
+                                updatePostStatusCard();
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================error");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("_==================Returned empty response");
+                    }
+                    progressDialog.dismiss();
+                } else { //Response code : 400 response.code()
+                    try {
+                        String error = response.errorBody().string();
+                        System.out.println("_==================Error: "+error);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+                System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
+            }
+        });
+    }
+
 
     private void getMaxStatus(){
 
@@ -360,6 +445,11 @@ public class AdminHomeFragment extends Fragment {
             txtMaxViewVideoTitle.setText("No videos so far");
             txtMaxViewVideoNoOfViews.setText("");
         }
+    }
+
+    private void updatePostStatusCard(){
+       txt_total_online_post.setText("Total post online: "+AdminDashboardStorage.total_online_post);
+       txt_total_pending_post.setText("New pending approval: "+AdminDashboardStorage.total_pending_post);
     }
 
     private void updateStatusCard_S2(){

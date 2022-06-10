@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -59,7 +61,7 @@ public class YtbVideoFragment extends Fragment {
     private SharedPreferences sharedPre;
     private static FragmentManager fragmentManager;
 
-    private TextView labelNoOfItems, txtDate;
+    private static TextView labelNoOfItems, txtDate;
     private Button btnAddNew, btnRefreshList;
     private TextInputEditText txtSearch;
 
@@ -203,12 +205,78 @@ public class YtbVideoFragment extends Fragment {
     }
 
     //Todo: Post Onclick
-    public static void listItemOnClick(int postId){
-       // Fragment fragment = new ViewUserFragment(postId);
-       // replaceFragment(fragment);
+    public static void listItemOnClick(int id, String url){
+
+        showChooseDialog(context,
+                ()->{
+                //watch
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    context.startActivity(browserIntent);
+                },
+                ()->{
+                //delete
+                    showConfirmDialog(context, ()->{
+                        //delete
+                        deleteYtbVideo(id);
+                    }, ()->{});
+                },
+                ()->{
+                //cancel
+                });
     }
 
-    private void getYtbVideos(){
+    private static void deleteYtbVideo(int id){
+        progressDialog.show();
+        videosList.clear();
+
+        ApiInterface apiInterface = RetrofitClient.getRetrofitInstance(apiBaseUrl).create(ApiInterface.class);
+
+        Call<String> call = apiInterface.deleteVideo(String.valueOf(id));
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) { //Response code : 200
+                    if (response.body() != null) {
+                        System.out.println("_==================onSuccessimg");
+                        System.out.println(response.body().toString());
+                        try {
+                            //  JSONArray jsonArray = new JSONArray(response.body().toString());
+                            JSONObject jsnobject = new JSONObject(response.body().toString());
+                            if(jsnobject.getString("success").equals("1")){
+                               showDialog(context, "Done!", "The video has been deleted from application", ()->{});
+                               getYtbVideos();
+                            }else{
+                                showDialog(context, "Error!", "Couln't perform delete task", ()->{});
+                            }
+                        } catch (JSONException e) {
+                            System.out.println("_==================JSONException");
+                            e.printStackTrace();
+                        }
+
+                    }
+                    progressDialog.dismiss();
+                } else { //Response code : 400 response.code()
+                    progressDialog.dismiss();
+                    try {
+                        String error = response.errorBody().string();
+                        System.out.println("_==================Error: "+error);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.dismiss();
+                System.out.println("_==================Error! couln'd send the request ==================\n" + t.getMessage());
+            }
+        });
+    }
+
+    private static void getYtbVideos(){
         progressDialog.show();
         videosList.clear();
 
@@ -328,7 +396,7 @@ public class YtbVideoFragment extends Fragment {
     }
 
 
-    private void  setPostRecycler(){
+    private static void  setPostRecycler(){
         // vaccineRecycler = getView().findViewById(R.id.vaccineRecycler); TODO : Move to onViewCreated()
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
         postsRecycler.setLayoutManager(layoutManager);
@@ -371,6 +439,37 @@ public class YtbVideoFragment extends Fragment {
                 .show();
     }
 
+    public static  void showChooseDialog(
+            @NonNull final Context context,
+            @Nullable Runnable watchCallback,
+            @Nullable Runnable deleteCallback,
+            @Nullable Runnable cancelCallback
+    ) {
+        //TODO: Add TextInput Programatically...
+        //  E.g. TextInputEditText myInput = new TextInputEditText(getContext());
+        //  MaterialAlertDialogBuilder(context).addView(myInput)  <- Possible
+
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("Youtube video")
+                .setMessage("What you want to do?")
+                .setCancelable(false)
+                .setPositiveButton("Watch",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (watchCallback != null) watchCallback.run();
+                        })
+                .setNegativeButton("Delete",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (deleteCallback != null) deleteCallback.run();
+                        })
+                .setNeutralButton("Cancel",
+                        (dialog2, which) -> {
+                            dialog2.dismiss();
+                            if (cancelCallback != null) cancelCallback.run();
+                        })
+                .show();
+    }
 
     public static  void showDialog(
             @NonNull final Context context,

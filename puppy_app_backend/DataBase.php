@@ -48,20 +48,21 @@ class DataBase
             if (mysqli_num_rows($result) != 0) {
                 $dbidno     = $row['Nic Number'];
                 $dbpassword = $row['Password'];
+                $status     = $row['status'];
 
                 if ($dbidno == $idno && $password == $dbpassword) {
-                    $login = true;
+                    $response = $status;
                 } else {
-                    $login = false;
+                    $response = $status;
                 }
             } else {
-                $login = false;
+                $response = "login_failed";
             }
         } else {
-            $login = false;
+            $response = "login_failed";
         }
 
-        return $login;
+        return $response;
     }
 
     public function signUp(
@@ -109,11 +110,25 @@ class DataBase
         return $response;
     }
 
+    public function updateUserAccountStatus($id, $status)
+    {
+        $response = "";
+
+        $this->sql = "UPDATE login_user_register SET status='{$status}' WHERE id = {$id} LIMIT 1";
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        return $response;
+    }
+
     public function getUsers()
     {
         $response = array();
 
-        $this->sql = "SELECT * FROM login_user_register";
+        $this->sql = "SELECT * FROM login_user_register WHERE `User Type` !='admin' ";
         $result    = mysqli_query($this->connect, $this->sql);
         if ($result) {
 
@@ -401,6 +416,39 @@ class DataBase
         return $response;
     }
 
+    public function addBookingSlot($from_time, $to_time, $description)
+    {
+        $response = false;
+
+        $sql = "INSERT INTO booking_slots (from_time, to_time, description ) ";
+        $sql .= "VALUES ( '{$from_time}', '{$to_time}', '{$description}' ) ";
+
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        return $response;
+    }
+
+    public function deleteBookingSlot($id)
+    {
+        $response = false;
+
+        $sql = "DELETE FROM booking_slots WHERE id = {$id} ";
+
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+        return $response;
+    }
+
     public function addVeterinary(
         $title,
         $city,
@@ -541,6 +589,21 @@ class DataBase
         return $response;
     }
 
+    public function deleteVideo($id)
+    {
+        $sql = "DELETE FROM youtube_video WHERE id= {$id} LIMIT 1";
+
+        $this->sql = $sql;
+        $result    = mysqli_query($this->connect, $this->sql);
+        if ($result) {
+            $response = true;
+        } else {
+            $response = false;
+        }
+
+        return $response;
+    }
+
     public function updateStatistics($id, $data)
     {
         $title        = $data->items['0']->snippet->title;
@@ -655,7 +718,7 @@ class DataBase
     {
         $response = array("max_breed_id" => 0, "max_breed_name" => "", "no_of_post" => 0);
 
-        $sql       = "SELECT id, COUNT(breed_id) as count FROM post GROUP BY breed_id";
+        $sql       = "SELECT breed_id, COUNT(breed_id) as count FROM post GROUP BY breed_id";
         $this->sql = $sql;
         $result    = mysqli_query($this->connect, $this->sql);
         if ($result) {
@@ -665,14 +728,14 @@ class DataBase
                 while ($row = mysqli_fetch_assoc($result)) {
                     if (intval($row['count']) > $max_count) {
                         $max_count    = intval($row['count']);
-                        $max_breed_id = intval($row['id']);
+                        $max_breed_id = intval($row['breed_id']);
                     }
                 }
                 $response['max_breed_id'] = $max_breed_id;
                 $response['no_of_post']   = $max_count;
                 //  $response = "{'breed_id':" . $max_breed_id . ",'no_of_post':" . $max_count . "}";
                 // $response = mysqli_fetch_assoc($result);
-                $sql       = "SELECT breed FROM dog_breed";
+                $sql       = "SELECT breed FROM dog_breed WHERE id= $max_breed_id"; //
                 $this->sql = $sql;
                 $result_3  = mysqli_query($this->connect, $this->sql);
                 if ($result_3) {
@@ -684,6 +747,32 @@ class DataBase
             }
         } else {
             $response = "";
+        }
+        return $response;
+    }
+
+    public function getPostCountStatistics()
+    {
+        $response = array("total_online" => 0, "total_pending" => 0);
+
+        $this->sql = "SELECT count(id) as total_online FROM post WHERE status='active'";
+        $result    = mysqli_query($this->connect, $this->sql);
+
+        if ($result) {
+
+            if (mysqli_num_rows($result) != 0) {
+                $row                      = mysqli_fetch_assoc($result);
+                $response['total_online'] = $row['total_online'];
+            }
+
+            $this->sql = "SELECT count(id) as total_pending FROM post WHERE status='pending'";
+            $result    = mysqli_query($this->connect, $this->sql);
+            if ($result) {
+                if (mysqli_num_rows($result) != 0) {
+                    $row                       = mysqli_fetch_assoc($result);
+                    $response['total_pending'] = $row['total_pending'];
+                }
+            }
         }
         return $response;
     }

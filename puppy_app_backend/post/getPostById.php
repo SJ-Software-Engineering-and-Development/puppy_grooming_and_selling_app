@@ -14,6 +14,6 @@ if (isset($_POST['id'])) {
     }
 } else {
     $response['success'] = 0;
-    $response['data']    = "status Reqired";
+    $response['data']    = "id Reqired";
     echo json_encode($response);
 }

@@ -140,7 +140,17 @@
                             />
                     </LinearLayout>
                     <!-- .\List Heading       -->
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:layout_gravity="center_vertical"
+                        android:text="Admin's accounts won't display here!"
+                        android:layout_marginHorizontal="10dp"
+                        android:textStyle="bold"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@color/colorLightGreen"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
